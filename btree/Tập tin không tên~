@@ -1,0 +1,74 @@
+http://usaco.org/index.php?page=viewproblem2&cpid=195&lang=vi
+
+Bài 3: Balanced Trees [Brian Dean, 2012]
+
+Phấn khích bởi kinh nghiệm của các chuỗi ngoặc đơn cân bằng, nông dân John (FJ) rất tò mò nếu như bạn có thể giúp ông ta giải vấn đề cuối cùng. Qua một thời gian, nông trại của FJ có hình dạng của một cây lớn với N bãi cỏ (1 <= N <= 40,000), mỗi bãi có được đánh dấu bằng dấu mở ngoặc đơn ‘(‘ hoặc dấu đóng ngoặc đơn ‘)’. Ví dụ:
+
+'('--'('--')'--'('--')'
+ |    |
+')'  ')'--'('--'('
+ |         |
+')'       '('--')'--')'--')'--'('
+
+Nông trại của FJ là một cây, nên mỗi cặp bãi cỏ được nối liền với nhau bởi những đường hành lang sao cho chỉ có một đường đi duy nhất giữa hai bãi cỏ bất kì. FJ tin rằng những đường đi này thể hiện mội chuỗi ngoặc đơn cân bằng. Đặc biệt hơn, ông ta muốn biết rằng trong tất cả các chuỗi ngoặc đơn cân bằng, độ sâu tối đa của một chuỗi ngoặc đơn cân bằng là bao nhiêu. Độ sâu của một chuỗi ngoặc đơn cân bằng là số dấu mở ngoặc đơn ‘(‘ dư ra lớn nhất trong các chuỗi tiền tố của chuỗi ban đầu, không kể các dấu mở ngoặc đơn ‘(‘ đã được đóng bằng các dấu đóng ngoặc đơn ‘)’. Ví dụ, chuỗi ()()() có độ sâu là 1, nhưng chuỗi ((()))() có độ sâu là 3, nếu như ta có thể đếm số lượng dấu mở ngoặc đơn ‘(‘ dư thừa lớn nhất trong các chuỗi tiền tố từ chuỗi gốc.
+
+((()))()
+12321010
+
+Trong ví dụ của nông trại ở trên, chuỗi sâu nhất là ((())) có độ sâu là 3, nếu ta đi từ A đên B theo hình dưới:
+
+'('--'('--')'--'('--')'
+ |    |
+')'  ')'--'('--'('  <A
+ |         |
+')'       '('--')'--')'--')'--'('
+ ^C                       ^B
+
+Chú ý rằng chuỗi này khác với chuỗi ngoặc đơn cân bằng có độ dài dài nhất, ví dụ như chuỗi (())(()), bắt đầu từ A và kết thúc ở C và có độ dài là 8.
+
+Bài toán của bạn là hãy tìm độ sâu của chuỗi ngoặc đơn cân bằng có độ sâu lớn nhất trong cây. 
+
+TÊN BÀI: btree
+
+ĐỊNH DẠNG TỆP TIN ĐẦU VÀO:
+
+*Dòng 1: Gồm một số tự nhiên N, là số đỉnh của cây. *Dòng 2..N: Dòng thứ i+1 chứa số tự nhiên p_(i+1) (1 <= p_(i+1) <= i), thể hiện có một cạnh giữa hai đỉnh i+1 và p_(i+1) trong cây. *Dòng N+1..2N: Dòng thứ N+I chứa dấu mở ngoặc đơn ‘(‘ hoặc dấu đóng ngoặc đơn ‘)’ là nhãn của đỉnh thứ i. 
+
+15
+1
+2
+1
+4
+4
+6
+7
+5
+9
+9
+11
+12
+13
+14
+(
+)
+)
+(
+)
+)
+(
+)
+(
+(
+(
+)
+)
+)
+(
+
+ĐỊNH DẠNG TỆP TIN ĐẦU RA:
+
+*Dòng 1: Gồm một số tự nhiên là độ sâu của chuỗi ngoặc đơn cân bằng có độ sâu lớn nhất. 
+
+TỆP TIN ĐẦU RA MẪU (tệp tin btree.out):
+
+3
