@@ -1,0 +1,56 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<queue>
+#include<stack>
+#include<algorithm>
+using namespace std;
+int par[100];
+int w[100];
+vector <int> v[100];
+int anc(int u)
+{
+	if (par[u]==0) return u;
+	else return par[u]=anc(par[u]);
+}
+
+int main()
+{
+	//freopen("test.inp","r",stdin);
+	int n,m,x,i,j;
+	scanf("%d",&n);
+	m=100000000;
+	for(i=1;i<=n;i++) 
+	{
+		scanf("%d",&w[i]);
+		m=min(m,w[i]);	
+	}
+	for(i=1;i<=n;i++)
+	{
+		scanf("%d",&x);
+		x++;
+		if (anc(x)!=anc(i)) par[anc(i)]=anc(x);
+	}
+	for(i=1;i<=n;i++)
+		v[anc(i)].push_back(w[i]);
+	for(i=1;i<=n;i++) sort(v[i].begin(),v[i].end());
+	long long res=0,s1,s2;
+	for(i=1;i<=n;i++)
+	{
+		s1=0;s2=0;
+		if (v[i].size()<=1) continue;
+		for(j=1;j<v[i].size();j++)
+		{
+			s1+=v[i][0]+v[i][j];
+		}
+		for(j=0;j<v[i].size();j++)
+		{
+			s2+=m+v[i][j];
+		}
+		s2+=m+v[i][0];
+		res+=min(s1,s2);
+	}
+	printf("%lld\n",res);
+	
+}
+

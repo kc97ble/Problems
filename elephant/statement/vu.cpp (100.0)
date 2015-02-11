@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define II pair<long long,long long>
+#define X first
+#define Y second
+#define PB push_back
+long long const N = 1000005, M = 100005, oo = 1000000007;
+
+long long save[100],w[100];
+vector<long long> f[100];
+
+long long root(long long a){
+	if( save[a]==-1 ) return a;
+	save[a]=root( save[a] );
+	return save[a];
+}
+
+int main(){
+	//freopen("test.txt","r",stdin);
+	long long mi=oo,A,I,a,n,ans1,ans2,res=0;
+	cin>>n;
+	for(long long i=0;i<=n;i++) save[i]=-1;
+	for(long long i=1;i<=n;i++){
+		cin>>w[i-1];
+		mi=min( mi , w[i-1] );
+	}
+	for(long long i=0;i<n;i++){
+		cin>>a;
+		if( a!=i ){
+			A=root(a);I=root(i);
+			if( A!=I ) save[I] = A;
+		}
+	}
+	for(long long i=0;i<n;i++){
+		f[ root(i) ].PB( w[i] );
+	}
+	for(long long i=0;i<n;i++) sort( f[i].begin() , f[i].end() );
+	for(long long i=0;i<n;i++){
+		if( f[i].size()<=1 ) continue;
+		//for(long long j=0;j<f[i].size();j++) cout<<f[i][j]<<' ';
+		//cout<<endl;
+		ans1=0;
+		for(long long j=1;j<f[i].size();j++) {
+			//cout<<ans1<<' ';
+			ans1+=(f[i][0]+f[i][j]);
+			//cout<<f[i][0]<<' '<<f[i][j]<<' '<<ans1<<endl;
+		}
+		ans2=(mi+f[i][0])*2;
+		for(long long j=1;j<f[i].size();j++) {
+			ans2+=mi+f[i][j];
+		}
+		//cout<<ans1<<' '<<ans2<<endl;
+		res+=(min(ans1,ans2));
+	}
+	cout<<res;
+}

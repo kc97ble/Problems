@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool check[2000];
+int e[2000],imin,sum,a[2000],cnt;
+void dfs(int x)
+{
+    //printf("%d %d\n",x,e[x]);
+    cnt++;
+    check[x]=true;
+    imin=min(imin,a[x]);
+    sum+=a[x];
+    if(!check[e[x]])
+    {
+        dfs(e[x]);
+    }
+}
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int ans=0,i,themin=1999999999,n,x;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+        themin=min(themin,a[i]);
+        //printf("%d\n",themin);
+    }
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        e[i]=x;
+    }
+    for(i=0;i<n;i++)
+    {
+        if(!check[i])
+        {
+            imin=1999999999;
+            cnt=0;
+            sum=0;
+            dfs(i);
+            ans+=min(themin*cnt+themin+imin*2+sum-imin,sum-imin+imin*(cnt-1));
+            //printf("%d %d %d %d\n",imin,sum,themin*cnt+imin*2+sum-imin,sum-imin+imin*(cnt-1));
+        }
+    }
+    printf("%d",ans);
+}
