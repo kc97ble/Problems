@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+long long res,m,a[100001],hieu,sum,each,du,carry;
+int n,i;
+int main()
+{
+	scanf("%lld%d",&m,&n);
+	for(i=1;i<=n;i++)
+	{
+		scanf("%lld",&a[i]);
+		sum+=a[i];
+	}
+	sort(a+1,a+n+1);
+	hieu=sum-m;
+	//printf("%lld %lld %lld\n",each,hieu,du);
+	for(i=1;i<=n;i++)
+	{
+		each=hieu/(n-i+1);
+		if(a[i]<each)
+		{
+			res+=a[i]*a[i];
+			hieu-=a[i];
+		}
+		else
+		{
+			res+=each*each;
+			hieu-=each;
+		}
+	}
+	printf("%lld\n",res);
+}

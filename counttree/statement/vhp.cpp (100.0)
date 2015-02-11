@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+#define MAX   66
+#define FOR(i,a,b) for (int i=(a),_b=(b);i<=_b;i=i+1)
+#define REP(i,n) for (int i=0,_n=(n);i<_n;i=i+1)
+#define FORE(i,v) for (__typeof((v).begin()) i=(v).begin();i!=(v).end();i++)
+using namespace std;
+typedef long long ll;
+vector<int> g[MAX];
+ll f[MAX][MAX][2];
+int n;
+char a[MAX][MAX];
+void loadtree(void) {
+    scanf("%d",&n);
+    FOR(i,1,n) scanf("%s",a[i]+1);
+    FOR(i,1,n) FOR(j,i+1,n) if (a[i][j]=='Y') {
+        g[i].push_back(j);
+        g[j].push_back(i);
+    }
+}
+void dfs(int u,int p,int lim) {
+    vector<vector<ll> > prev;
+    prev.assign(n+7,vector<ll>(3,0));
+    REP(i,2) f[u][0][i]=1;
+    FORE(it,g[u]) if (*it!=p) {
+        int v=*it;
+        //printf("CHILD %d of %d\n",v,u);
+        dfs(v,u,lim);
+        REP(i,n) REP(j,2) {
+            prev[i][j]=f[u][i][j];
+            f[u][i][j]=0;
+        }
+        REP(i,n) REP(j,2) if (f[v][i][j]>0)
+            REP(k,n) REP(l,2) if (prev[k][l]>0) {
+                //printf("PREV %d %d = %lld\n",k,l,prev[k][l]);
+                //printf("F %d %d %d = %lld\n",v,i,j,f[v][i][j]);
+                if ((i+l<=lim || j==0) && (k+j<=lim || l==0))
+                    f[u][k+j][l]+=prev[k][l]*f[v][i][j];
+            }
+        /*REP(i,n) REP(j,2) if (f[u][i][j]>0)
+            printf("F %d %d %d = %lld\n",u,i,j,f[u][i][j]);*/
+    }
+}
+void process(void) {
+    REP(lim,n) {
+        memset(f,0,sizeof f);
+        dfs(1,-1,lim);
+        ll res=0;
+        REP(i,n) {
+            res+=f[1][i][0];
+            if (i<=lim) res+=f[1][i][1];
+        }
+        cout<<res<<endl;
+    }
+}
+int main(void) {
+    loadtree();
+    process();
+    return 0;
+}

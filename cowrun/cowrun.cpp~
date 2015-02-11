@@ -1,0 +1,71 @@
+/*---------------------------------------------------------------------------------------------------------------------------------------*/
+#include <algorithm>
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <climits>
+#include <cstring>
+#include <iomanip>
+#include <limits>
+#include <string>
+#include <locale>
+#include <cstdio>
+#include <vector>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <ctime>
+#include <map>
+#include <set>
+using namespace std;
+#define finp freopen("lol.txt", "r", stdin)
+#define fout freopen("lolout.txt", "w", stdout)
+#define FOR(i, a, b) for(int i=(a); i<=(b); i++)
+#define ROF(i, a, b) for(int i= (a); i>=(b); i--)
+#define fi first
+#define se second
+#define INF 10000000
+#define sqr(x) ((x)*(x))
+typedef unsigned long long llu;
+typedef pair<int, int> ii; 
+typedef vector<ii> vii;
+typedef vector<int> vi;
+typedef pair<ii, int> iii;
+const int HOME = 1;
+const int TEST = 0;
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
+int n, m;
+int a[10000], best[10000];
+void process()
+{
+     scanf("%d%d", &n, &m);
+     FOR(i, 0, n-1)
+     {
+            scanf("%d", &a[i]);
+     }
+     FOR(i, 0, n-1)
+     {
+            if (best[i] > best[i+1] ) best[i+1] = best[i];
+            int sum = best[i];
+            int pos = i ; 
+            for(int j=0; j<m && pos < n; j++)
+            {
+                    sum = sum + a[i+j];
+                    pos += 2; 
+                    if (sum > best[pos] ) best[pos] = sum ; 
+            }
+     }
+     printf("%d\n", best[n]);
+}
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+int main ()
+{
+    if(HOME)
+    {
+         finp;
+         fout;
+    }
+    process();
+    return 0;
+}

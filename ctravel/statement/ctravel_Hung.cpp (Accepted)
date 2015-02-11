@@ -1,0 +1,19 @@
+#include<cstdio>
+#include<cstring>
+long long f[102][102][16]={0ll};
+char s[102][102];
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int m,n,i,j,k,t,x,y;
+    scanf("%d%d%d",&m,&n,&t);
+    for(i=0;i<m;++i) scanf("%s",&s[i]);
+    scanf("%d%d",&x,&y);
+    f[x][y][0]=1ll;
+    scanf("%d%d",&x,&y);
+    for(k=0;k<t;++k)
+        for(i=1;i<=m;++i)
+            for(j=1;j<=n;++j) if(s[i-1][j-1]=='.')
+                f[i][j][k+1]=f[i-1][j][k]+f[i][j-1][k]+f[i+1][j][k]+f[i][j+1][k];
+    printf("%lld",f[x][y][k]);
+}

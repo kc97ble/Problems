@@ -1,0 +1,39 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <cmath>
+using namespace std;
+
+int m, n, t, r1, c1, r2, c2, dx[] = {0, 0, 1, -1}, dy[] = {1, -1, 0, 0};
+string s[104];
+
+long long f[16][104][104];
+
+long long F(int x, int i, int j){
+	if(i < 0 || j < 0 || i >= m || j >= n) return 0;
+	if(s[i][j] == '*') return 0;
+	long long &ans = f[x][i][j];
+	if(ans != -1) return ans;
+	if(x == 0) return ans = (i == r2 && j == c2);
+	ans = 0;
+	for(int l=0; l<4; l++) ans += F(x-1, i+dx[l], j+dy[l]);
+	return ans;
+}
+
+void MAIN(){
+	cin >> m >> n >> t;
+	for(int i=0; i<m; i++) cin >> s[i];
+	cin >> r1 >> c1 >> r2 >> c2;
+	r1--; c1--; r2--; c2--;
+	memset(f, 0xff, sizeof f);
+	cout << F(t, r1, c1);
+}
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	MAIN();
+}

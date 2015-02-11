@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool cmp(int x,int y)
+{
+    return x>y;
+}
+long long int a[123455];
+int main()
+{
+    long long int m,n,i,j,ans=0;
+   // freopen("test.inp","r",stdin);
+ //   freopen("test.out","w",stdout);
+    scanf("%lld %lld",&m,&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf("%lld",&a[i]);
+    }
+    sort(a+1,a+1+n,cmp);
+    for(i=1;i<=n;i++)
+    {
+
+        if(a[i]-a[i+1]<=m/i)
+        {
+            m-=(a[i]-a[i+1])*i;
+        }
+        else
+        {
+            for(j=1;j<=i;j++)
+                a[j]=a[i];
+            for(j=1;j<=i;j++)
+                a[j]-=m/i;
+            for(j=1;j<=m%i;j++)
+                a[j]--;
+            break;
+        }
+    }
+    for(i=1;i<=n;i++)
+        {ans+=a[i]*a[i]; }
+    cout<<ans;
+}

@@ -1,0 +1,31 @@
+#include <cstdio>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+typedef long long ll;
+
+ll n, m, sum;
+ll a[100005];
+ll res, cnt;
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin >> m >> n;
+    for(ll i=1;i<=n;i++){cin >> a[i]; sum+= a[i];}
+    sort(a+1,a+1+n); m= sum-m;
+    for(ll i=1;i<=n;i++){
+        if((a[i]-cnt)*(n-i+1)>=m){
+            ll x= m/(n-i+1);
+            m-= (x*(n-i+1)); cnt+= x;
+        }
+        else{
+            m-= (a[i]-cnt)*(n-i+1);
+            cnt= a[i];
+        }
+        res+= (cnt*cnt);
+    }
+    cout << res << "\n";
+    return 0;
+}

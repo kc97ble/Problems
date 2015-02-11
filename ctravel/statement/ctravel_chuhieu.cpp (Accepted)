@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=103;
+int n,m;
+int a[N][N];
+int d[N][N][17];
+int dr[]={-1,0,1,0},k;
+int dc[]={0,1,0,-1};
+char s[N];
+typedef pair<int,int> ii;
+typedef pair<ii,int> iii;
+ii start,t;
+int dp(int r,int c,int cnt){
+	//if(s==ii(r,c) && cnt==0)  return 1;
+	if(cnt==0 && (start.first==r && start.second==c))  return 1;
+	if(d[r][c][cnt]!=-1)  return d[r][c][cnt];
+	if(cnt==0 && !(start.first==r && start.second==c))  return 0;
+	int ans=0;
+	for(int i=0;i<4;++i){
+		int nr=r+dr[i];
+		int nc=c+dc[i];
+		if(nr<1 || nc<1 || nr>m || nc>n)  continue;
+		if(a[nr][nc])  continue;
+		ans+=dp(nr,nc,cnt-1);
+	}
+	return d[r][c][cnt]=ans;
+}
+int main(){
+	//freopen("fr.cpp","r",stdin);
+	scanf("%d%d%d",&m,&n,&k);
+	for(int i=1;i<=m;++i){
+		scanf("%s",s);
+		for(int j=0;j<n;++j)  if(s[j]!='.')  a[i][j+1]=1;
+	}
+	memset(d,-1,sizeof d);
+	d[start.first][start.second][0]=1;
+	scanf("%d%d%d%d",&start.first,&start.second,&t.first,&t.second);
+	
+	//cout<<dp(start.first,start.second,0)<<endl;
+	printf("%d",dp(t.first,t.second,k));
+}

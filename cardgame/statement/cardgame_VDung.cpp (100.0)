@@ -1,0 +1,44 @@
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+int re[12][12], a, b, k, c;
+bool sign[12][12];
+
+int f(int i, int j){
+	int s;
+	//printf("%d %d\n", i, j);
+	if(i==0 && j==0) return c;
+	if(sign[i][j]) return re[i][j];
+	if(j==0) re[i][j]= (f(i-1,j)+1)/2;
+	else if(i==0) re[i][j]= (f(i,j-1)+1)/2;
+	else re[i][j]= (f(i,j-1)+f(i-1,j)+1)/2;
+	sign[i][j]= true;
+	return re[i][j];
+}
+
+int main(){
+	int test, l, r, maxi;
+	while(scanf("%d", &a)!=EOF){
+		scanf("%d%d", &b, &k);
+		l= k; r= 30720;
+		while(l<r){
+			c= (l+r)/2;
+			if(r-1==l){
+				c= r;
+				memset(sign, false, sizeof sign);
+				if(f(a,b)<=k) l++;
+				break;
+			}
+			memset(sign, false, sizeof sign);
+			if(f(a,b)<=k){
+				l= c;
+			}
+			else r= c-1;
+			//printf("%d\n", c);
+		}
+		printf("%d\n", l);
+	}
+	return 0;
+}

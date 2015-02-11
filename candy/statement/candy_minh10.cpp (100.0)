@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#define f(i,n) for(int i=1;i<=n;i++)
+#define ff(i,a,b) for(int i=a;i<=b;i++)
+#define F(i,n) for (int i=n;i>=1;i--)
+#define FF(i,a,b) for(int i=a;i>=b;i--)
+#define fi first
+#define se second
+#define B 1
+#define W -1
+#define pb push_back
+using namespace std;
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef vector<ii> vii;
+typedef vector<ll> vi;
+const int MAX=1e5+5,INF=1e9; const ll mod=1e9+7,INFLL=1e18;
+
+ll m,n,sum=0,res=0;vi a;
+
+void init(void)
+{
+    scanf("%lld%lld",&m,&n);
+    f(i,n)
+    {
+        ll tmp;
+        scanf("%lld",&tmp);
+        sum+=tmp;
+        a.pb(tmp);
+    }
+    sort(a.begin(),a.end());
+    reverse(a.begin(),a.end());
+}
+
+void process(void)
+{
+    ll tmp=(sum-m)/n,r=(sum-m)%n;
+    if(tmp<=a[a.size()-1])
+    {
+        res+=tmp*tmp*(n-r)+(tmp+1)*(tmp+1)*r;
+        printf("%lld",res);
+        return;
+    }
+    else
+    {
+        sum-=a[a.size()-1];
+        n--;
+        res+=a[a.size()-1]*a[a.size()-1];
+        a.pop_back();
+        process();
+    }
+}
+
+int main(void)
+{
+    init();
+    process();
+    return 0;
+}

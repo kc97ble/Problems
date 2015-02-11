@@ -1,0 +1,34 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<stack>
+#include<algorithm>
+#include<queue>
+#include<math.h>
+#include<set>
+#include<map>
+using namespace std;
+long long v[110000];
+int main()
+{
+	long long n,m,sum=0,i,x;
+	cin>>m>>n;
+	for(i=1;i<=n;i++) 
+	{
+		scanf("%lld",&v[i]);
+		m-=v[i];
+	}
+	m=-m;
+	long long res=0;
+	sort(v+1,v+n+1);
+	for(i=1;i<=n;i++)
+	{
+		x=min(v[i],m/(n-i+1));
+		m-=x;
+		res+=1ll*x*x;
+	}
+	cout<<res;
+	
+	
+}
+
