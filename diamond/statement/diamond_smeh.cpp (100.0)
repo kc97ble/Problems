@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+#define MAX   777
+#define FOR(i,a,b) for (int i=(a),_b=(b);i<=_b;i=i+1)
+#define FORD(i,b,a) for (int i=(b),_a=(a);i>=_a;i=i-1)
+#define REP(i,n) for (int i=0,_n=(n);i<_n;i=i+1)
+#define FORE(i,v) for (__typeof((v).begin()) i=(v).begin();i!=(v).end();i++)
+#define FORED(i,v) for (__typeof((v).rbegin()) i=(v).rbegin();i!=(v).rend();i++)
+using namespace std;
+bool a[MAX][MAX];
+int downLeft[MAX][MAX],downRight[MAX][MAX],upLeft[MAX][MAX],upRight[MAX][MAX];
+int m,n,res;
+void init(void) {
+    int x,lim;
+    scanf("%d%d%d%d",&m,&n,&x,&lim);
+    FOR(i,1,m) FOR(j,1,n) {
+        x=(1LL*x*25173+13849)%65536;
+        a[i][j]=x>=lim;
+        if (a[i][j]) res=1;
+    }
+    if (res==0) {
+        printf("0");
+        exit(0);
+    }
+}
+void precount(void) {
+    FORD(i,m,1) FOR(j,1,n) downLeft[i][j]=a[i][j]?downLeft[i+1][j-1]+1:0;
+    FORD(i,m,1) FORD(j,n,1) downRight[i][j]=a[i][j]?downRight[i+1][j+1]+1:0;
+    FOR(i,1,m) FOR(j,1,n) upLeft[i][j]=a[i][j]?upLeft[i-1][j-1]+1:0;
+    FOR(i,1,m) FORD(j,n,1) upRight[i][j]=a[i][j]?upRight[i-1][j+1]+1:0;
+}
+bool ok(int k,int i,int j) {
+    int len=(j-i)/2+1;
+    return (downLeft[i][k]>=len && downRight[i][k]>=len && upLeft[j][k]>=len && upRight[j][k]>=len);
+}
+void process(void) {
+    FOR(j,1,n) {
+        vector<int> top[2],bot[2];
+        FOR(i,1,m) {
+            if (downLeft[i][j]>res && downRight[i][j]>res) top[i%2].push_back(i);
+            if (upLeft[i][j]>res && upRight[i][j]>res) bot[i%2].push_back(i);
+        }
+        REP(i,2) FORE(it,top[i]) FORED(jt,bot[i]) {
+            if ((*jt-*it)/2+1<=res) break;
+            if (ok(j,*it,*jt)) res=(*jt-*it)/2+1;
+        }
+    }
+    printf("%d",res);
+}
+int main(void) {
+    init();
+    precount();
+    process();
+    return 0;
+}

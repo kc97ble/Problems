@@ -1,0 +1,38 @@
+    #include <iostream>
+using namespace std;
+
+struct DiamondMining
+{
+  int largestDiamond(int sy, int sx, int cur, int th)
+  {
+    int a,b,c,d,best=0;
+    bool field[755][755];
+      for (a=0; a<sy; a++,cout<<endl)
+        for (b=0; b<sx; b++)
+        {
+          cur=(cur*25173+13849)%65536;
+          field[a][b]=(cur>=th);
+        }
+      for (a=0; a<sy; a++)
+        for (b=0; b<sx; b++)
+          if (field[a][b])
+          {
+            if (!best)
+              best=1;
+            for (c=0; (b-c>=0) && (b+c<sx) && (a+c*2<sy); c++)
+            {
+              if ((!field[a+c][b-c]) || (!field[a+c][b+c]))
+                break;
+              if (best<c+1)
+              {
+                for (d=1; d<=c; d++)
+                  if ((!field[a+c+d][b-c+d]) || (!field[a+c+d][b+c-d]))
+                    break;
+                if (d>c)
+                  best=c+1;
+              }
+            }
+          }
+    return(best);
+  }
+};
