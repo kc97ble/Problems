@@ -1,0 +1,2 @@
+submission link: http://main.edu.pl/en/archive/oi/16/str
+testdata: http://main.edu.pl/en/user.phtml?op=tests&c=1600&task=482

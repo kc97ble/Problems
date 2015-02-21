@@ -1,0 +1,63 @@
+{$mode objfpc}
+{$coperators on}
+uses math;
+
+type
+        xx = 0..2047;
+
+const
+        maxn = 2048;
+var
+        n, i, j : integer;
+        a, b    : array[xx] of longint;
+        f       : array[xx, xx] of int64;
+        g       : array[xx] of int64;
+        ans     : int64;
+
+begin
+        assign(input, ''); reset(input);
+        assign(output, ''); rewrite(output);
+
+        read(n);
+        for i := 1 to n do
+        begin
+           read(a[i]);
+           b[i] := a[i];
+        end;
+        for i := 1 to n do
+           for j := i+1 to n do
+           if b[j] < b[i] then
+           begin
+              b[i] += b[j];
+              b[j] := b[i] - b[j];
+              b[i] := b[i] - b[j];
+           end;
+        ans := high(int64);
+
+        for i := 1 to n do
+        begin
+          g[0] := high(Int64);
+          for j := 1 to n do g[j] := min(f[i-1][j], g[j-1]);
+          for j := 1 to n do
+           begin
+               f[i, j] := abs(a[i]-b[j]) + g[j];
+               if i = n then ans := min(ans, f[i, j]);
+           end;
+        end;
+
+        for i := 1 to n do
+        begin
+          g[n+1] := high(Int64);
+          for j := n downto 1 do g[j] := min(f[i-1][j], g[j+1]);
+          for j := 1 to n do
+           begin
+               f[i, j] := abs(a[i]-b[j]) + g[j];
+               if i = n then ans := min(ans, f[i, j]);
+           end;
+        end;
+
+        write(ans);
+
+        close(input);
+        close(output);
+end.

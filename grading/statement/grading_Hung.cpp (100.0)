@@ -1,0 +1,43 @@
+#include<cstdio>
+#include<cstdlib>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+const int N=2005;
+const ll INF=1ll*1e18;
+int a[N],b[N];
+ll f[N][N];
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int n,m,i,j;
+    ll ans=INF;
+    scanf("%d",&n);
+    for(i=1;i<=n;++i)
+    {
+        scanf("%d",&a[i]);
+        b[i]=a[i];
+    }
+    sort(b+1,b+n+1);
+    for(i=1;i<=n;++i)
+    {
+        ll res=INF;
+        for(j=1;j<=n;++j)
+        {
+            res=min(res,f[i-1][j]);
+            f[i][j]=1ll*abs(a[i]-b[j])+res;
+        }
+    }
+    for(i=1;i<=n;++i) ans=min(ans,f[n][i]);
+    for(i=1;i<=n;++i)
+    {
+        ll res=INF;
+        for(j=n;j>=1;--j)
+        {
+            res=min(res,f[i-1][j]);
+            f[i][j]=1ll*abs(a[i]-b[j])+res;
+        }
+    }
+    for(i=1;i<=n;++i) ans=min(ans,f[n][i]);
+    printf("%lld",ans);
+}

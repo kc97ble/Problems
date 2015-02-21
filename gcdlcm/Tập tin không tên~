@@ -1,0 +1,139 @@
+Problem Statement
+-----------------
+Your task is to find n positive integers. We will label them x[0] through x[n-1].
+
+We will give you some information about these integers. Namely, for some pairs of integers we will tell you their greatest common divisor (GCD), and for some pairs we will tell you their least common multiple (LCM).
+
+You are given the int n. You are also given a String type and three int[]s: A, B, and C. These int[]s will all have the same number of elements, and type will contain the corresponding number of characters. Their meaning is as follows: For each valid i, we have some information about the integers x[ A[i] ] and x[ B[i] ]. If type[i] is 'G', the greatest common divisor of these two integers must be C[i]. If type[i] is 'L', the least common multiple of these two integers must be C[i].
+
+Return "Solution exists" (quotes for clarity) if there is at least one way to choose x[0] through x[n-1] so that all requirements are satisfied. Otherwise, return "Solution does not exist".
+ 
+Definition
+----------
+
+::    	
+	Class:	GCDLCM
+	Method:	possible
+	Parameters:	int, String, int[], int[], int[]
+	Returns:	String
+	Method signature:	String possible(int n, String type, int[] A, int[] B, int[] C)
+	(be sure your method is public)    
+ 
+Constraints
+-----------
+
+- n will be between 1 and 200, inclusive.
+
+- A will contain between 1 and 200 elements, inclusive.
+
+- A and B will contain the same number of elements.
+
+- A and C will contain the same number of elements.
+
+- The number of elements in A will be the same as the number of characters in type
+- Each character in type will be 'G' or 'L'.
+-	Each element in A will be between 0 and n-1, inclusive.
+-	Each element in B will be between 0 and n-1, inclusive.
+-	For each i, A[i] and B[i] will be different.
+-	Each element in C will be between 1 and 1,000,000,000, inclusive.
+ 
+Examples
+--------
+
+0)	
+    	
+::
+	4
+	"GLGLGLGL"
+	{0,0,1,1,2,2,3,3}
+	{1,1,2,2,3,3,0,0}
+	{6,12,6,12,6,12,6,12}
+
+Returns: "Solution exists"
+
+We have 4 unknown integers: x[0], x[1], x[2], and x[3]. The given A, B, C, and type encode the following information:
+
+    The GCD of x[0] and x[1] must be 6 and their LCM must be 12.
+    The GCD of x[1] and x[2] must be 6 and their LCM must be 12.
+    The GCD of x[2] and x[3] must be 6 and their LCM must be 12.
+    The GCD of x[3] and x[0] must be 6 and their LCM must be 12.
+
+There are two valid solutions. In one of them, x[0] = x[2] = 6 and x[1] = x[3] = 12.
+
+1)
+
+::
+	5
+	"GLGLGLGLGL"
+	{0,0,1,1,2,2,3,3,4,4}
+	{1,1,2,2,3,3,4,4,0,0}
+	{6,12,6,12,6,12,6,12,6,12}
+
+Returns: "Solution does not exist"
+
+This time we have no solution.
+
+2)	
+
+11
+"GGGGGGGGGG"
+{0,0,0,0,0,0,0,0,0,0}
+{1,2,3,4,5,6,7,8,9,10}
+
+{2,3,5,7,11,13,17,19,23,29}
+
+Returns: "Solution exists"
+
+One possible solution is: {6469693230,2,3,5,7,11,13,17,19,23,29}. Note that the numbers in our solution can be very large.
+3)	
+    	
+
+12
+
+"GLLGGGLGLLGL"
+
+{0,1,2,3,4,5,6,7,8,9,10,11}
+
+{1,2,3,4,5,6,7,8,9,10,11,0}
+
+{1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000}
+
+Returns: "Solution exists"
+
+One possible solution: each x[i] is equal to 1000000000.
+4)	
+    	
+
+12
+
+"GLLGGGLGLLGL"
+
+{0,1,2,3,4,5,6,7,8,9,10,11}
+
+{1,2,3,4,5,6,7,8,9,10,11,0}
+
+{1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,999999999}
+
+Returns: "Solution does not exist"
+
+5)	
+    	
+
+200
+
+"G"
+
+{11}
+
+{20}
+
+{19911120}
+
+Returns: "Solution exists"
+
+This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2010, TopCoder, Inc. All rights reserved.
+This problem was used for:
+       Single Round Match 633 Round 1 - Division I, Level Three
+
+
+
