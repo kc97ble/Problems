@@ -1,0 +1,38 @@
+uses math;
+
+var
+        n, m, t, i, j, k
+        , u, v, h       : longint;
+        c               : array[0..302, 0..302] of longint;
+
+begin
+        assign(input, ''); reset(input);
+        assign(output, ''); rewrite(output);
+
+        read(n, m, t);
+
+        fillchar(c, sizeof(c), $3f);
+
+        for i := 1 to n do c[i][i] := 0;
+
+
+        for i := 1 to m do
+        begin
+           read(u, v, h);
+           c[u, v] := h;
+        end;
+
+        for i := 1 to n do
+          for j := 1 to n do
+            for k := 1 to n do
+              c[j, k] := min (c[j, k], max(c[j, i], c[i, k]) );
+        for i := 1 to t do
+        begin
+           read(u, v);
+           if c[u, v] = $3f3f3f3f then writeln(-1)
+           else writeln(c[u, v]);
+        end;
+
+        close(input);
+        close(output);
+end.

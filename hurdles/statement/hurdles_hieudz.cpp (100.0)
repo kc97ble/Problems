@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+int c[350][350];
+int main()
+{
+    int n,m,t,x,y,z,k,i,j;
+    //freopen("test.inp","r",stdin);
+    scanf("%d %d %d",&n,&m,&t);
+    memset(c,0x3f,sizeof c);
+    while(m--)
+    {
+        scanf("%d %d %d",&x,&y,&z);
+        c[x][y]=z;
+    }
+    for(k=1;k<=n;k++)
+    for(i=1;i<=n;i++)
+    for(j=1;j<=n;j++)
+    {
+        c[i][j]=min(max(c[i][k],c[k][j]),c[i][j]);
+    }
+    while(t--)
+    {
+        scanf("%d %d",&x,&y);
+        if(c[x][y]<1000010)
+        printf("%d\n",c[x][y]);
+        else printf("-1\n");
+    }
+}

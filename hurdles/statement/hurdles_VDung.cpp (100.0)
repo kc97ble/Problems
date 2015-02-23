@@ -1,0 +1,36 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int INF= 1000000005;
+
+int n, m, q;
+int c[305][305];
+
+int main(){
+    scanf("%d%d%d", &n, &m, &q);
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++) {
+            if(i!=j) c[i][j]= INF;
+        }
+    }
+    while(m--){
+        int x, y, z; scanf("%d%d%d", &x, &y, &z);
+        c[x][y]= min(c[x][y],z);
+    }
+    for(int k=1;k<=n;k++){
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                c[i][j]= min(c[i][j], max(c[i][k],c[k][j]));
+            }
+        }
+    }
+    while(q--){
+        int x, y; scanf("%d%d", &x, &y);
+        if(c[x][y]>=INF) printf("-1\n");
+        else printf("%d\n", c[x][y]);
+    }
+    return 0;
+}

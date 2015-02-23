@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#define f(i,n) for(int i=1;i<=n;i++)
+#define ff(i,a,b) for(int i=a;i<=b;i++)
+#define F(i,n) for (int i=n;i>=1;i--)
+#define FF(i,a,b) for(int i=a;i>=b;i--)
+#define fi first
+#define se second
+#define B 1
+#define W -1
+#define pb push_back
+#define mp make_pair
+using namespace std;
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef vector<ii> vii;
+typedef vector<int> vi;
+const int MAX=1e5+5,INF=1e9;
+const ll mod=1e9+7,INFLL=1e18;
+
+int n,m,t;
+int d[305][305];
+
+void minimize(int &a,int b)
+{
+    if(a>b) a=b;
+}
+
+void init(void)
+{
+    scanf("%d%d%d",&n,&m,&t);
+    f(i,n) f(j,n) d[i][j]=INF;
+    f(i,n) d[i][i]=0;
+    f(i,m)
+    {
+        int u,v,h;
+        scanf("%d%d%d",&u,&v,&h);
+        d[u][v]=h;
+    }
+}
+
+void process(void)
+{
+    f(k,n) f(i,n) f(j,n) minimize(d[i][j],max(d[i][k],d[k][j]));
+    f(i,n) f(j,n) if(d[i][j]==INF) d[i][j]=-1;
+    f(i,t)
+    {
+        int u,v;
+        scanf("%d%d",&u,&v);
+        printf("%d\n",d[u][v]);
+    }
+}
+
+int main(void)
+{
+    init();
+    process();
+    return 0;
+}

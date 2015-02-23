@@ -1,0 +1,27 @@
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+const int N=305,INF=1e9;
+int d[N][N];
+int main()
+{
+    int n,m,i,j,k,t;
+    scanf("%d%d%d",&n,&m,&t);
+    for(i=1;i<=n;++i)
+        for(j=1;j<=n;++j) d[i][j]=INF;
+    while(m--)
+    {
+        scanf("%d%d%d",&i,&j,&k);
+        d[i][j]=k;
+    }
+    for(k=1;k<=n;++k)
+        for(i=1;i<=n;++i)
+            for(j=1;j<=n;++j)
+                d[i][j]=min(d[i][j],max(d[i][k],d[k][j]));
+    while(t--)
+    {
+        scanf("%d%d",&i,&j);
+        if(d[i][j]==INF) printf("-1\n");
+        else printf("%d\n",d[i][j]);
+    }
+}

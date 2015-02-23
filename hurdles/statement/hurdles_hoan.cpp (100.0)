@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+int f[500][500];
+int main()
+{
+	int n,m,u,v,k,h,t;
+	memset(f,0x3f,sizeof(f));
+	scanf("%d%d%d",&n,&m,&t);
+	while(m--)
+	{
+		scanf("%d%d%d",&u,&v,&h);
+		f[u][v]=min(f[u][v],h);
+	}
+	for(k=1;k<=n;k++)
+	{
+		for(u=1;u<=n;u++)
+		{
+			for(v=1;v<=n;v++)
+			{
+				f[u][v]=min(f[u][v],max(f[u][k],f[k][v]));
+			}
+		}
+	}
+	while(t--)
+	{
+		scanf("%d%d",&u,&v);
+		if(f[u][v]<=1e9) printf("%d\n",f[u][v]);
+		else printf("-1\n");
+	}
+}

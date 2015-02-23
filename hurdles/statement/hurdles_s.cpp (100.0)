@@ -1,0 +1,40 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<stack>
+#include<algorithm>
+#include<queue>
+#include<math.h>
+#include<set>
+#include<map>
+using namespace std;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+int a[310][310];
+int main()
+{
+	int n,m,q,u,v,w,i,j,k;
+	cin>>n>>m>>q;
+	for(i=1;i<=n;i++)
+	for(j=1;j<=n;j++) a[i][j]=1000000000;
+	for(i=1;i<=m;i++)
+	{
+		scanf("%d%d%d\n",&u,&v,&w);
+		a[u][v]=w;
+	}
+	
+	for(k=1;k<=n;k++)
+	for(i=1;i<=n;i++)
+	for(j=1;j<=n;j++)
+		a[i][j]=min(a[i][j],max(a[i][k],a[k][j]));
+	while(q--)
+	{
+		scanf("%d%d",&u,&v);
+		if (a[u][v]!=1000000000) printf("%d\n",a[u][v]);	
+		else printf("-1\n");
+	}
+		
+	
+	
+}
+

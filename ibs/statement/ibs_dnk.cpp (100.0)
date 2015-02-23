@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int MODULO = (int) 1e9 + 7;
+
+vector<vector<int> > identity(int n) {
+    vector<vector<int> > result (n, vector<int>(n));
+    for (int i = 0; i < n; ++i)
+        result[i][i] = 1;
+    return result;
+}
+
+vector<vector<int> > multiply(const vector<vector<int> > &a, const vector<vector<int> > &b) {
+    int m = a.size();
+    int n = a[0].size();
+    int p = b[0].size();
+    vector<vector<int> > result (m, vector<int>(p));
+    for (int i = 0; i < m; ++i)
+        for (int j = 0; j < n; ++j)
+            for (int k = 0; k < p; ++k)
+                result[i][k] = (result[i][k] + 1LL * a[i][j] * b[j][k]) % MODULO;
+    return result;
+}
+
+vector<vector<int> > power(vector<vector<int> > a, long long n) {
+    vector<vector<int> > result = identity(a.size());
+    while (n > 0) {
+        if (n % 2 != 0) result = multiply(result, a);
+        a = multiply(a, a);
+        n /= 2;
+    }
+    return result;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    long long n; cin >> n;
+    int l; cin >> l;
+    vector<vector<int> > base (l, vector<int>(l));
+    for (int x = 1; x <= l; ++x) {
+        if (x + 1 <= l) ++base[x][x - 1];
+        ++base[0][x - 1];
+    }
+    vector<vector<int> > first (l, vector<int>(1));
+    first[0][0] = 2;
+    vector<vector<int> > last = multiply(power(base, n - 1), first);
+    int answer = 0;
+    for (int i = 0; i < l; ++i)
+        answer = (answer + last[i][0]) % MODULO;
+    cout << answer << '\n';
+    return 0;
+}

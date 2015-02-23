@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=303;
+int n,m,a[N][N],f[N][N],t;
+int main(){
+    //freopen("fr.cpp","r",stdin);
+    ios::sync_with_stdio(false);
+    cin>>n>>m>>t;
+    //memset(f,0xff,sizeof f);
+    for(int i=1;i<=n;++i)
+    for(int j=1;j<=n;++j)  f[i][j]=1e9;
+    for(int i=1;i<=n;++i)  f[i][i]=0;
+    while(m--){
+        int p,q,w;
+        cin>>p>>q>>w;
+        f[p][q]=w;
+    }
+    for(int k=1;k<=n;++k)
+    for(int i=1;i<=n;++i)
+    for(int j=1;j<=n;++j)
+    f[i][j]=min(f[i][j],max(f[i][k],f[k][j]));
+    while(t--){
+        int p,q;
+        cin>>p>>q;
+        if(f[p][q]==1e9)  cout<<"-1\n";
+        else cout<<f[p][q]<<"\n";
+    }
+}
+
