@@ -1,0 +1,101 @@
+#include<stdio.h>
+#define MAX 100000
+#include<string.h>
+#include<map>
+#include<vector>
+using namespace std;
+int deg[2*MAX+200];
+int par[2*MAX+200];
+typedef pair<int,int> ii;
+map<int,int> mp;
+map<ii,int> E;
+int cnt=0;
+bool cycle;
+bool wrongcycle;
+bool visited[2*MAX+200];
+vector<int> V[2*MAX+200];
+int n;
+void dfs(int root,int u){
+	visited[u]=true;
+	cnt++;
+	for(int i=0;i<V[u].size();i++){
+		if(par[u]==V[u][i]) continue;
+		if(!visited[V[u][i]]){
+			par[V[u][i]]=u;
+			dfs(root,V[u][i]);
+		}
+		else{
+		  if(V[u][i]==root) cycle=true;
+		  else if(u!=root) wrongcycle=true;
+		}
+	}
+}
+void init(){
+	for(int i=1;i<=2*MAX;i++) V[i].clear();
+	memset(deg,0,sizeof deg);
+	memset(par,0,sizeof par);
+	memset(visited,0,sizeof visited);
+	mp.clear();
+	E.clear();
+	n=0;
+}
+int N,k;
+void loadgraph(){
+	while(k>0){
+		int u,v;
+		scanf("%d %d",&u,&v);
+		if(mp.find(u)==mp.end()) {
+			n++;
+			mp[u]=n;
+		}
+		if(mp.find(v)==mp.end()){
+			n++;
+			mp[v]=n;
+		}
+		u=mp[u];
+		v=mp[v];
+		if(E.find(ii(u,v))==E.end()){
+			V[u].push_back(v);
+			V[v].push_back(u);
+			deg[u]++;
+			deg[v]++;
+			E[ii(u,v)]=1;
+			E[ii(v,u)]=1;
+		}
+		k--;
+	}
+}
+void solve(){
+	for(int i=1;i<=n;i++)
+	   if(deg[i]>=3){
+	   	printf("N\n");
+	   	return ;
+	   }
+    for(int i=1;i<=n;i++)
+      if(!visited[i]){
+      	cycle=false;
+      	wrongcycle=false;
+      	cnt=0;
+      	dfs(i,i);
+        if(wrongcycle) {
+           printf("N\n");
+           return ;
+        }
+      	if(cycle && cnt<N) {
+      		printf("N\n");
+      		return ;
+      	}
+      }
+    printf("Y\n");
+}
+main(){
+  //  freopen("test.inp","r",stdin);
+	int Test;
+	while(scanf("%d %d",&N,&k)!=EOF){
+            if( N==0  && k==0) break;
+            init();
+            loadgraph();
+            solve();
+            Test--;
+    }
+}

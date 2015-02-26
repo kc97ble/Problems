@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define II pair<int,int>
+#define X first
+#define Y second
+#define PB push_back
+int const N = 1000005, M = 100005, oo = 1000000007;
+
+map<int,int>  id;
+int cnt=0,n,k,ner[2*M];
+vector<II> F;
+set<int> se;
+vector<int> f[2*M],sor;
+bool ck[2*M],ans;
+int num,num1;
+
+void run(int a){
+	for(int i=0;i<f[a].size();i++) se.insert( f[a][i] );
+	ner[a]=se.size();
+	se.clear();
+}
+
+void DFS(int a,int b){
+	num++;
+	//cout<<a<<' '<<b<<endl;
+	ck[a]=1;
+	//ck[a]=1;ner[b]++;
+	//if(b!=0) ner[a]++;
+	for( int i=0;i<f[a].size();i++ ){
+		if( ck[f[a][i]]==0 ) DFS(f[a][i],a);
+	}
+	if( ner[a]==2 ) num1++;
+	else if( ner[a]>2 ) ans=0;
+}
+
+int main(){
+	//freopen("test.txt","r",stdin);
+	int a,b;
+	while(cin>>k>>n){
+		cnt=0;
+		for(int i=0;i<2*M;i++) {f[i].clear();ck[i]=0;ner[i]=0;}
+		F.clear();
+		id.clear();
+		sor.clear();
+		if( k+n==0 ) return 0;
+		//cout<<k<<' '<<n<<endl;
+		for(int i=1;i<=n;i++){
+			cin>>a>>b;
+			F.PB( II(a,b) );
+			sor.PB( a ); sor.PB( b );
+		}
+		sort( sor.begin() , sor.end() );
+		for(int i=0;i<sor.size();i++ ){
+			if( id[sor[i]]==0 ){
+				id[sor[i]]=++cnt;
+			}
+		}
+		ans=1;
+		for(int i=0;i<F.size();i++){
+			a=id[F[i].X];b=id[F[i].Y];
+			f[a].PB(b);f[b].PB(a);
+			//if( f[a].size()>2 ) ans=0;
+		}
+
+		for(int i=1;i<=cnt;i++){
+			run(i);
+		}
+
+		for(int i=1;i<=cnt;i++){
+			if( ck[i]==0 ){
+				num=0;num1=0;
+				DFS( i , 0 );
+				if( num==k and num1!=k and num1!=(k-2) ) ans=0;
+				else if( num==num1 and num!=k ) ans=0;
+
+			}
+		}
+		if( ans==0 ) cout<<"N\n";else cout<<"Y\n";
+	}
+}
+

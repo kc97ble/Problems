@@ -1,0 +1,66 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#include <map>
+#define X first
+#define Y second
+using namespace std;
+typedef pair<int, int> ii;
+
+const int N = 3e5+8;
+int k, m;
+map<int, int> mp;
+vector<int> E[N];
+bool ck[N], ok;
+int h[N];
+
+void dfs(int u){
+	ck[u] = 1;
+	for(int i=0; i<E[u].size(); i++){
+		int v = E[u][i];
+		if(ck[v] == 0){
+			h[v] = h[u]+1;
+			dfs(v);
+		}
+		else if(abs(h[u]-h[v])+1 != 2 && abs(h[u]-h[v])+1 != k) ok = 0;
+	}
+}
+
+char MAIN(){
+	mp.clear();
+	memset(ck, 0, sizeof ck);
+	memset(h, 0, sizeof h);
+	ok = 1;
+	for(int i=0; i<N; i++) E[i].clear();
+	int u, v, cnt = 0;
+	while(m--){
+		cin >> u >> v;
+		if(mp.find(u) == mp.end()) mp[u] = cnt++;
+		if(mp.find(v) == mp.end()) mp[v] = cnt++;
+		u = mp[u]; v = mp[v];
+		E[u].push_back(v);
+		E[v].push_back(u);
+	}
+	for(int i=0; i<cnt; i++){
+		vector<int> tmp;
+		sort(E[i].begin(), E[i].end());
+		if(E[i].size()) tmp.push_back(E[i][0]);
+		for(int j=1; j<E[i].size(); j++) if(E[i][j] != E[i][j-1]) tmp.push_back(E[i][j]);
+		E[i] = tmp;
+		if(E[i].size() > 2) return 'N';
+		if(ck[i] == 0) dfs(i);
+	}
+	if(ok) return 'Y';
+	return 'N';
+}
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	while(cin >> k >> m){
+		if(k == 0) return 0;
+		cout << MAIN() << '\n';
+	}
+}

@@ -1,0 +1,117 @@
+#include <cstdio>
+#include <map>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+typedef pair<int,int> ii;
+
+int n, m, q;
+map<ii,bool> sign;
+map<int,int> used;
+int d[200005];
+int cnt, num[200005], low[200005], par[200005];
+vector<int> a[200005];
+map<ii,bool> check;
+bool vst[200005];
+
+void dfs(int u, int last){
+    num[u]= ++cnt;
+    low[u]= num[u];
+    for(int i=0;i<a[u].size();i++){
+        int v= a[u][i];
+        if(v!=last){
+            if(num[v]==0){
+                par[v]= u;
+                dfs(v,u); low[u]= min(low[u],low[v]);
+            }
+            else low[u]= min(low[u],num[v]);
+        }
+    }
+}
+
+bool test(int u){
+    bool res= false;
+    cnt++; if(d[u]<2) res= true;
+    for(int i=0;i<a[u].size();i++){
+        int v= a[u][i];
+        if(vst[v]) continue;
+        if(u<v && check[ii(u,v)]==true) continue;
+        if(v<u && check[ii(v,u)]==true) continue;
+        vst[v]= true; res= (res|test(v));
+    }
+}
+
+void init(){
+    sign.clear(); used.clear(); check.clear();
+    for(int i=1;i<=q;i++){
+        a[i].clear(); d[i]= 0;
+        vst[i]= false;
+        num[i]= 0; low[i]= 0; par[i]= 0;
+    }
+    cnt= 0; q= 0;
+}
+
+int main(){
+    while(scanf("%d%d", &n, &m)==2){
+        if(n==0 && m==0) break;
+        if(m==0){
+            printf("Y\n"); continue;
+        }
+        for(int i=1;i<=m;i++){
+            int x, y;
+            scanf("%d%d", &x, &y);
+            if(x>y) swap(x,y);
+            if(sign[ii(x,y)]) continue;
+            sign[ii(x,y)]= true;
+            if(used.find(x)==used.end()){
+                used[x]= ++q;
+            }
+            if(used.find(y)==used.end()){
+                used[y]= ++q;
+            }
+            a[used[x]].push_back(used[y]);
+            a[used[y]].push_back(used[x]);
+            d[used[x]]++; d[used[y]]++;
+        }
+        bool have= false;
+        for(int i=1;i<=q;i++){
+            if(d[i]>2){
+                printf("N\n");
+                have= true;
+                break;
+            }
+        }
+        if(have){
+            init(); continue;
+        }
+        for(int i=1;i<=q;i++){
+            if(num[i]==0){
+                par[i]= -1; dfs(i,0);
+            }
+        }
+        for(int v=1;v<=q;v++){
+            int u= par[v];
+            if(u!=-1 && low[v]>=num[v]){
+                if(u<v) check[ii(u,v)]= true;
+                else check[ii(v,u)]= true;
+            }
+        }
+        bool out= false;
+        for(int i=1;i<=q;i++){
+            if(!vst[i]){
+                cnt= 0;
+                vst[i]= true;
+                have= test(i);
+                if(cnt>=3 && cnt<n && have==false){
+                    out= true; printf("N\n"); break;
+                }
+            }
+        }
+        if(!out) printf("Y\n");
+        //
+        init();
+    }
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include<cstdio>
+#include<vector>
+#include<queue>
+using namespace std;
+typedef pair<int,int> ii;
+typedef pair<int,ii> ip;
+int sword[201]={0},dp[201][1<<13],n,m,p,k;
+vector<ip> v[201];
+queue<ii> q;
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int a,b,c,d,i,j,ans=1e9;
+    scanf("%d%d%d%d",&n,&m,&p,&k);
+    while(k--)
+    {
+        scanf("%d%d",&a,&b);
+        while(b--)
+        {
+            scanf("%d",&c);
+            sword[a]|=(1<<(c-1));
+        }
+    }
+    while(m--)
+    {
+        scanf("%d%d%d%d",&a,&b,&c,&d);
+        i=0;
+        while(d--)
+        {
+            scanf("%d",&j);
+            i|=(1<<(j-1));
+        }
+        v[a].push_back(ip(b,ii(c,i)));
+        v[b].push_back(ip(a,ii(c,i)));
+    }
+    for(i=1;i<=n;++i) for(j=0;j<(1<<p);++j) dp[i][j]=1e9;
+    dp[1][sword[1]]=0;
+    q.push(ii(1,sword[1]));
+    while(!q.empty())
+    {
+        int p=q.front().first,bm=q.front().second;
+        q.pop();
+        for(i=0;i<v[p].size();++i)
+        {
+            a=v[p][i].first,b=v[p][i].second.second,d=v[p][i].second.first;
+            if((bm|b)==bm && dp[a][bm|sword[a]]>dp[p][bm]+d)
+            {
+                dp[a][bm|sword[a]]=dp[p][bm]+d;
+                q.push(ii(a,bm|sword[a]));
+            }
+        }
+    }
+    for(i=0;i<(1<<p);++i) ans=min(ans,dp[n][i]);
+    if(ans==1e9) printf("-1");
+    else printf("%d",ans);
+}
