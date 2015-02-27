@@ -1,0 +1,39 @@
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#define x first
+#define y second
+
+using namespace std;
+
+typedef pair<int,int> ii;
+typedef pair<ii,int> pi;
+
+int n, m, r;
+pi a[1005];
+int re[1005];
+bool sign[1005];
+
+int f(int i){
+    if(i==m+1) return 0;
+    if(sign[i]) return re[i];
+    re[i]= f(i+1);
+    for(int j=i+1;;j++){
+        if(a[j].x.x>=a[i].x.y+r){
+            re[i]= max(re[i], f(j)+a[i].y);
+            break;
+        }
+    }
+    sign[i]= true; return re[i];
+}
+
+int main(){
+    scanf("%d%d%d", &n, &m, &r);
+    for(int i=1;i<=m;i++){
+        scanf("%d%d%d", &a[i].x.x, &a[i].x.y, &a[i].y);
+    }
+    sort(a+1,a+1+m);
+    a[m+1]= pi(ii(2000000005,2000000005),0);
+    printf("%d\n", f(1));
+    return 0;
+}

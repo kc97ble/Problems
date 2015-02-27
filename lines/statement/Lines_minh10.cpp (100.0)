@@ -1,0 +1,47 @@
+#include<cstdio>
+#include<cassert>
+#include<algorithm>
+#include<vector>
+#include<cmath>
+#include<iostream>
+#include<cstring>
+#include<set>
+#define f(i,n) for(int i=1;i<=n;i++)
+#define ff(i,a,b) for(int i=a;i<=b;i++)
+#define F(i,n) for (int i=n;i>=1;i--)
+#define FF(i,a,b) for(int i=a;i>=b;i--)
+#define fi first
+#define se second
+#define B 1
+#define W -1
+#define pb push_back
+using namespace std;
+typedef long long ll;
+typedef pair<ll,ll> ii;
+typedef vector<ii> vii;
+typedef vector<double> vi;
+const int MAX=1e5+5; const ll mod=1e9+7;
+
+int n; ii a[205];bool ex[2005][1005]={0};set<ii> slp;
+
+ii slope(ii a,ii b)
+{
+    if(a.fi==b.fi) return ii(1,0);
+    if(a.se==b.se) return ii(0,0);
+    int x=a.se-b.se,y=a.fi-b.fi;int d=__gcd(x,y);
+    return ii(x/d,y/d);
+}
+
+int main(void)
+{
+    int cnt=0;
+    scanf("%d",&n);
+    f(i,n) scanf("%d%d",&a[i].fi,&a[i].se);
+    ff(i,2,n) f(j,i-1)
+    {
+        ii x=slope(a[j],a[i]);
+        slp.insert(x);
+    }
+    printf("%d",slp.size());
+    return 0;
+}

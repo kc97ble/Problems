@@ -1,0 +1,20 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef pair<int,int> ii;
+set<ii> s;
+int n;
+ii a[202];
+int main(){
+	//freopen("fr.cpp","r",stdin);
+	cin>>n;
+	for(int i=1;i<=n;++i)  cin>>a[i].first>>a[i].second;
+	for(int i=1;i<=n;++i)
+	for(int j=i+1;j<=n;++j){
+		int u=a[j].first-a[i].first;
+		int v=a[j].second-a[i].second;
+		int k=__gcd(u,v);
+		u/=k, v/=k;
+		s.insert(ii(u,v));
+	}
+	cout<<s.size();
+}

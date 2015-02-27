@@ -1,0 +1,27 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define X first
+#define Y second
+using namespace std;
+typedef pair<int, int> ii;
+
+const int N = 1004;
+int f[N], n, r;
+pair<ii, int> a[N];
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	cin >> n >> n >> r;
+	for(int i=1; i<=n; i++) cin >> a[i].X.X >> a[i].X.Y >> a[i].Y;
+	sort(a+1, a+n+1);
+	int ans = 0;
+	for(int i=1; i<=n; i++){
+		f[i] = a[i].Y;
+		for(int j=1; j<i; j++) if(a[j].X.Y + r <= a[i].X.X) f[i] = max(f[i], f[j]+a[i].Y);
+		ans = max(ans, f[i]);
+	}
+	cout << ans;
+}

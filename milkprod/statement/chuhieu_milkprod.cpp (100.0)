@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e6+2;
+int n,m,r;
+int bit[N];
+void update(int x,int k){
+	for(;x<=N;x+=x&-x)  bit[x]=max(bit[x],k);
+}
+int get(int x){
+	int ans=bit[x];
+	for(;x>0;x-=x&-x)  ans=max(ans,bit[x]);
+	return ans;
+}
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+bool cmp(iii a,iii b){
+	a.second.second<b.second.second;
+}
+vector<iii> task;
+int ans=0;
+int main(){
+	//freopen("fr.cpp","r",stdin);
+	ios::sync_with_stdio(false);
+	cin>>n>>m>>r;
+	for(int i=0;i<m;++i){
+		int p,q,w;
+		cin>>p>>q>>w;
+		task.push_back(iii(q,ii(p,w)));
+	}
+	sort(task.begin(),task.end());
+	//for(int i=0;i<task.size();++i)  cout<<task[i].second.first<<" "<<task[i].first<<" "<<task[i].second.second<<endl;
+	for(int i=0;i<task.size();++i){
+		int l=task[i].second.first,rr=task[i].first;
+		int k=get(l)+task[i].second.second;
+		//cout<<l<<" "<<rr<< " "<<task[i].second.second<<" "<<k<< endl;
+		ans=max(ans,k);
+		update(rr+r,k);
+		//cout<<l<<" "<<rr<<" "<<k<<endl;
+	}
+	cout<<ans;
+}

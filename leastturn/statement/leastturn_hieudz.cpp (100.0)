@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool check[505][505];
+bool inqueue[505][505][5];
+int d[505][505][5];
+int xx[]={-1,0,1,0};
+int yy[]={0,1,0,-1};
+typedef pair<int,int> ii;
+typedef pair<ii,int> iii;
+deque <iii> qu;
+int n;
+bool canmove(int x,int y)
+{
+    if(x<0 || y<0 || x>n-1 || y>n-1) return false;
+    return (check[x][y]!=true);
+}
+int main()
+{
+    int x0,A,B,C,D,y0,P,M;
+    int x,y,i;
+    //freopen("test.inp","r",stdin);
+    scanf("%d %d %d %d %d %d %d %d %d",&n,&x0,&A,&B,&y0,&C,&D,&P,&M);
+    x=x0%P;
+    y=y0%P;
+    //printf("%d %d\n",x%n,y%n);
+    check[x%n][y%n]=true;
+    for(i=1;i<M;i++)
+    {
+        x=((long long )x*A+B)%(long long)P;
+        y=((long long )y*C+D)%(long long)P;
+        check[x%n][y%n]=true;
+        //printf("%d %d\n",x%n,y%n);
+    }
+    memset(d,0x3f,sizeof d);
+    check[0][0]=check[n-1][n-1]=false;
+    for(i=0;i<4;i++)
+    {d[0][0][i]=0; qu.push_front(iii(ii(0,0),i));}
+    while(!qu.empty())
+    {
+        x=qu.front().first.first;
+        y=qu.front().first.second;
+        int dir=qu.front().second;
+        qu.pop_front();
+        inqueue[x][y][dir]=false;
+        for(i=0;i<4;i++)
+        {
+            if(canmove(x+xx[i],y+yy[i]) && d[x+xx[i]][y+yy[i]][i]>d[x][y][dir]+(dir!=i))
+            {
+                d[x+xx[i]][y+yy[i]][i]=d[x][y][dir]+(dir!=i);
+                if(!inqueue[x+xx[i]][y+yy[i]][i])
+                {
+                    inqueue[x+xx[i]][y+yy[i]][i]=true;
+                    if(dir==i)
+                    qu.push_front(iii(ii(x+xx[i],y+yy[i]),i));
+                    else
+                    qu.push_back(iii(ii(x+xx[i],y+yy[i]),i));
+                }
+            }
+        }
+    }
+    if(min(min(d[n-1][n-1][0],d[n-1][n-1][1]),min(d[n-1][n-1][2],d[n-1][n-1][3]))>10000000)
+        printf("-1");
+    else printf("%d",min(min(d[n-1][n-1][0],d[n-1][n-1][1]),min(d[n-1][n-1][2],d[n-1][n-1][3])));
+}

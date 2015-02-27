@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<queue>
+#define fi first
+#define se second
+#define NM 520
+#define MAX 1300020
+using namespace std;
+typedef pair<int,int> ii;
+typedef pair<ii,int> II;
+int n,A,B,C,D,P,m;
+int d[NM][NM][5];
+int X[MAX] , Y[MAX];
+bool forbid[NM][NM];
+int dx[] = { 0 , 0 , 1 , -1};
+int dy[] = { 1 , -1 , 0 , 0};
+void minimize(int &a,int b){
+    if( a > b ) a = b;
+}
+deque<II> dq;
+bool inside(int x,int y){
+    return ( x >= 0 && x < n && y >= 0 && y < n );
+}
+void gen_board(){
+    scanf("%d %d %d %d %d %d %d %d %d",&n,&X[0],&A,&B,&Y[0],&C,&D,&P,&m);
+    X[0]%=P ; Y[0]%=P;
+    for(int i = 1 ; i < m ; i++){
+        X[i] = (1ll*X[i-1]*A + B )%P;
+        Y[i] = (1ll*Y[i-1]*C + D )%P;
+    }
+    for(int i = 0 ; i < m ; i++)
+        if( (X[i]%n == 0 && Y[i]%n == 0) || (X[i]%n == n - 1 && Y[i]%n == n - 1 )) continue;
+        else forbid[X[i]%n][Y[i]%n] = true;
+}
+void solve(){
+    for(int i = 0 ; i < n ; i++)
+        for(int j = 0 ; j < n ; j++)
+            for(int k = 0 ; k < 4 ; k++)
+                d[i][j][k] = 1e8;
+    for(int k = 0 ; k < 4 ; k++){
+        d[0][0][k] = 0;
+        dq.push_front(II(ii(0,0),k));
+    }
+    while(!dq.empty()){
+        int x = dq.front().fi.fi;
+        int y = dq.front().fi.se;
+        int k = dq.front().se;
+        dq.pop_front();
+        if(inside(x+dx[k],y+dy[k]) && !forbid[x+dx[k]][y+dy[k]]){
+            int cx = x + dx[k];
+            int cy = y + dy[k];
+            if(d[cx][cy][k] > d[x][y][k]){
+                d[cx][cy][k] = d[x][y][k];
+                dq.push_front(II(ii(cx,cy),k));
+            }
+        }
+        for(int i = 0 ; i < 4 ; i++)
+            if(d[x][y][i] > d[x][y][k]  + 1){
+                d[x][y][i] = d[x][y][k] + 1;
+                dq.push_back(II(ii(x,y),i));
+            }
+    }
+    int ans = 1e8;
+    for(int i = 0 ; i < 4 ; i++)
+        minimize(ans,d[n-1][n-1][i]);
+    if(ans >= 1e8 ) printf("-1");
+    else printf("%d",ans);
+}
+main(){
+    //freopen("test.inp","r",stdin);
+    gen_board();
+    solve();
+}

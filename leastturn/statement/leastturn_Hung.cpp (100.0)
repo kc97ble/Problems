@@ -1,0 +1,58 @@
+#include<cstdio>
+#include<cstring>
+#include<deque>
+#include<vector>
+using namespace std;
+const int N=505,INF=1e9;
+typedef pair<int,int> ii;
+typedef pair<ii,int> pi;
+deque<pi> dq;
+int f[N][N][4];
+int dx[4]={-1,0,1,0};
+int dy[4]={0,1,0,-1};
+bool w[N][N];
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int n,i,j,k,x,y,a,b,c,d,p,m,ans=INF;
+    scanf("%d%d%d%d%d%d%d%d%d",&n,&x,&a,&b,&y,&c,&d,&p,&m);
+    x%=p;y%=p;
+    while(m--)
+    {
+        i=x%n;j=y%n;
+        w[i][j]=1;
+        x=(1ll*x*a+b)%(long long)p;
+        y=(1ll*y*c+d)%(long long)p;
+    }
+    w[0][0]=w[n-1][n-1]=0;
+    memset(f,0x3f,sizeof f);
+    for(k=0;k<4;++k)
+    {
+        f[0][0][k]=0;
+        dq.push_back(pi(ii(0,0),k));
+    }
+    while(!dq.empty())
+    {
+        x=dq.front().first.first,y=dq.front().first.second,d=dq.front().second;
+        dq.pop_front();
+        int xx=x+dx[d],yy=y+dy[d];
+        if(xx>=0 && xx<n && yy>=0 && yy<n && !w[xx][yy] && f[xx][yy][d]>f[x][y][d])
+        {
+            f[xx][yy][d]=f[x][y][d];
+            dq.push_front(pi(ii(xx,yy),d));
+        }
+        k=(d+1)%4;if(f[x][y][k]>f[x][y][d]+1)
+        {
+            f[x][y][k]=f[x][y][d]+1;
+            dq.push_back(pi(ii(x,y),k));
+        }
+        k=(d+3)%4;if(f[x][y][k]>f[x][y][d]+1)
+        {
+            f[x][y][k]=f[x][y][d]+1;
+            dq.push_back(pi(ii(x,y),k));
+        }
+    }
+    for(k=0;k<4;++k) ans=min(ans,f[n-1][n-1][k]);
+    if(ans>1e7) printf("-1");
+    else printf("%d",ans);
+}

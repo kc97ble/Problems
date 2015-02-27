@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef pair<int,int> ii;
+vector <ii> a[100010];
+long long int f[2000010];
+map <int,int> ma;
+long long int cnt=0;
+int main()
+{
+    long long int n,m,r,x,y,z;
+    //freopen("test.inp","r",stdin);
+    scanf("%lld %lld %lld",&n,&m,&r);
+    while(m--)
+    {
+        scanf("%lld %lld %lld",&x,&y,&z);
+        if(ma.find(x)==ma.end())
+            ma[x]=++cnt;
+        a[ma[x]].push_back(ii(y,z));
+    }
+    for(long long int i=0;i<=r+n;i++)
+    {
+        if(i>0)
+        f[i]=max(f[i],f[i-1]);
+        if(i<=n && ma.find(i)!=ma.end())
+        for(long long int j=0;j<a[ma[i]].size();j++)
+        {
+            f[r+a[ma[i]][j].first]=max(f[r+a[ma[i]][j].first],f[i]+1LL*a[ma[i]][j].second);
+        }
+    }
+    printf("%lld",f[n+r]);
+}
