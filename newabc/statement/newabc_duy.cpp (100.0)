@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<algorithm>
+#define NM 29
+#define MAX 120
+#include<string.h>
+#include<vector>
+using namespace std;
+int c[NM][NM];
+int deg[NM];
+int color[NM];
+char s[MAX][NM];
+bool used[NM];
+vector<char> ans;
+int n;
+int num_case = 0;
+bool cycle = false;
+void dfs(int u){
+    //printf("%d ",u);
+    color[u] = 1;
+    for(int v = 0 ; v < 26 ; v++)
+        if(c[u][v]){
+            if(color[v] == 1) cycle = true;
+            if(color[v] == 0)   dfs(v);
+        }
+    color[u] = -1;
+}
+void read(){
+    scanf("%d",&n);
+    for(int i = 1 ; i <= n ; i++){
+        scanf("%s",&s[i]);
+        for(int j = 0 ; j < strlen(s[i]) ; j++)
+            used[s[i][j] - 'a'] = 1;
+    }
+    for(int i = 2 ; i <= n ; i++)
+        for(int j = 0 ; j < min(strlen(s[i]),strlen(s[i-1])) ; j++)
+            if(s[i][j] != s[i-1][j]){
+                c[s[i-1][j] - 'a'][s[i][j] - 'a'] = 1;
+                break;
+            }
+}
+void process(){
+    for(int v = 0 ; v < 26 ; v++)
+        for(int u = 0 ; u < 26 ; u++)
+            if( c[u][v] ) deg[v]++;
+    for(int i = 0 ; i < 26 ; i++)
+        if(used[i]) num_case++;
+    for(int i = 0 ; i < 26 ; i++)
+        if(color[i] == 0 && used[i])
+            dfs(i);
+    if(cycle) {
+        printf("!");
+        return ;
+    }
+    while(num_case > 0){
+        num_case--;
+        int nchoose = 0;
+        for(int i = 0 ; i < 26 ; i++)
+            if(used[i] && deg[i] == 0) nchoose++;
+        if( nchoose >= 2 ){
+            printf("?") ; return ;
+        }
+        for(int u = 0 ; u <  26 ; u++)
+            if(used[u] && deg[u] == 0){
+                used[u] = false;
+                ans.push_back( u + 'a' );
+                for(int v = 0 ; v < 26 ; v++)
+                    if(c[u][v]) deg[v]--;
+                break;
+            }
+    }
+    for(int i = 0 ; i < ans.size() ; i++)   printf("%c",ans[i]);
+}
+main(){
+    //freopen("test.inp","r",stdin);
+    read();
+    process();
+}
