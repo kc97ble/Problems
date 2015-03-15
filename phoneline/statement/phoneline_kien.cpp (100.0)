@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <queue>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+#define long long long
+#define f1(i,n) for (int i=1; i<=n; i++)
+#define f0(i,n) for (int i=0; i<n; i++)
+typedef pair<int, int> ii;
+typedef pair<int, ii> triple;
+#define X first
+#define Y second
+
+#define N 1003
+const int oo = 0x3c3c3c3c;
+int n, m, k, d[N][N];
+vector<int> a[N], b[N];
+
+bool minimize(int &a, int b)
+	{ if (a>b) a=b; else return false; return true; }
+
+int dijkstra(int S, int T){
+	f1(i,n) f0(j,k+1) d[i][j]=oo;
+	priority_queue<triple> qu;
+	qu.push(triple(0, ii(S, k))); d[S][k]=0;
+	
+	while (qu.size()) {
+		triple Pop=qu.top(); qu.pop();
+		int u=Pop.Y.X, x=Pop.Y.Y;
+		if (d[u][x] != -Pop.X) continue;
+		if (u==T) return d[u][x];
+		
+		for (int i=0; int v=a[u][i]; i++) {
+			if (minimize(d[v][x], max(d[u][x], b[u][i])))
+			qu.push(triple(-d[v][x], ii(v, x)));
+			if (x!=0 && minimize(d[v][x-1], d[u][x]))
+			qu.push(triple(-d[v][x-1], ii(v, x-1)));
+		}
+	}
+	return -1;
+}
+
+main(){
+	scanf("%d%d%d", &n, &m, &k);
+	f1(i,m) {
+		int x, y, z;
+		scanf("%d%d%d", &x, &y, &z);
+		a[x].push_back(y);
+		a[y].push_back(x);
+		b[x].push_back(z);
+		b[y].push_back(z);
+	}
+	f1(i,n) a[i].push_back(0);
+	cout << dijkstra(1, n) << endl;	
+}
+

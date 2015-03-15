@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+vector <ii> a[2000];
+priority_queue <iii,vector <iii> ,greater <iii> > qu;
+int d[1200][1200];
+int main()
+{
+    int n,p,k,x,y,z,i,j;
+    //freopen("test.inp","r",stdin);
+    scanf("%d %d %d",&n,&p,&k);
+    for(i=1;i<=n;i++)
+    for(j=0;j<=k;j++)
+    d[i][j]=1999999999;
+    while(p--)
+    {
+        scanf("%d %d %d",&x,&y,&z);
+        //printf("%d %d %d\n",x,y,z);
+        a[x].push_back(ii(y,z));
+        a[y].push_back(ii(x,z));
+    }
+    d[1][k]=0;
+    qu.push(iii(0,ii(1,k)));
+    while(!qu.empty())
+    {
+        int dis=qu.top().first;
+        x=qu.top().second.first;
+        k=qu.top().second.second;
+        //printf("%d %d %d\n",x,k,dis);
+        if(x==n)
+        {
+            printf("%d",dis);
+            return 0;
+        }
+        qu.pop();
+        if(dis==d[x][k])
+        {for(i=0;i<a[x].size();i++)
+        {
+            y=a[x][i].first;
+            if(d[y][k]>max(d[x][k],a[x][i].second))
+            {
+                d[y][k]=max(d[x][k],a[x][i].second);
+                qu.push(iii(d[y][k],ii(y,k)));
+            }
+            if(k>0 && d[y][k-1]>d[x][k])
+            {
+                //printf("%d %d\n",x,y);
+                d[y][k-1]=d[x][k];
+                qu.push(iii(d[y][k-1],ii(y,k-1)));
+            }
+        }
+        }
+    }
+    printf("-1");
+}

@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1002;
+int n,m,k;
+int d[N][N];
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+vector<ii> a[N];
+int dijkstra(){
+	priority_queue<iii,vector<iii>,greater<iii> > pq;
+	for(int i=1;i<=n;++i)
+	for(int j=0;j<=k;++j)  d[i][j]=1e9;
+	d[1][0]=0;
+	pq.push(iii(0,ii(1,0)));
+	while(pq.size()){
+		int u=pq.top().second.first;
+		int du=pq.top().first;
+		int cnt=pq.top().second.second;
+		pq.pop();
+		if(du!=d[u][cnt]) continue;
+		for(int i=0;i<a[u].size();++i){
+			int v=a[u][i].second;
+			int uv=a[u][i].first;
+			if(d[v][cnt]>max(d[u][cnt],a[u][i].first)){
+				d[v][cnt]=max(d[u][cnt],a[u][i].first);
+				pq.push(iii(d[v][cnt],ii(v,cnt)));
+			}
+			if(cnt<k){
+				if(d[v][cnt+1]>d[u][cnt]){
+					d[v][cnt+1]=d[u][cnt];
+					pq.push(iii(d[v][cnt+1],ii(v,cnt+1)));
+				}
+			}
+		}
+	}
+	return d[n][k];
+}
+int main(){
+	//freopen("fr.cpp","r",stdin);
+	ios::sync_with_stdio(false);
+	cin>>n>>m>>k;
+	while(m--){
+		int p,q,w;
+		cin>>p>>q>>w;
+		a[p].push_back(ii(w,q));
+		a[q].push_back(ii(w,p));
+	}
+	int ans=dijkstra();
+	if(ans==1e9)  cout<<-1;
+	else cout<<ans;
+}

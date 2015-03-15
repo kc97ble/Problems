@@ -1,0 +1,95 @@
+#include<stdio.h>
+#define M 110
+#include<string.h>
+#include<algorithm>
+#include<queue>
+#include<math.h>
+#define INF 5000200
+#define ll long long
+using namespace std;
+ll d;
+ll x[M],y[M];
+int N;
+int n;
+double D;
+int dist[2*M];
+int u[M] , v[M] ;
+int c[2*M][2*M];
+int f[2*M][2*M];
+vector<int> ans;
+queue<int> qq;
+ll sqr(ll x){
+    return (x*x);
+}
+ll dis(ll x1,ll y1,ll x2,ll y2){
+    return sqr(x1-x2) + sqr(y1-y2);
+}
+/*flow*/
+    bool bfs(int s,int t){
+        for(int i=0;i<=N;i++) dist[i] = -1;
+        dist[0] = 0;
+        qq.push(0);
+        while(!qq.empty()){
+            int u = qq.front();
+            qq.pop();
+            for(int v=0;v<=N;v++){
+                if(dist[v]==-1 && f[u][v] < c[u][v]){
+                    qq.push(v);
+                    dist[v] = dist[u] + 1;
+                }
+            }
+        }
+        return ( dist[t]!=-1);
+    }
+    int dfs(int u,int t,int flow){
+        if( u == t ) return flow;
+        for(int v=0;v<=N;v++)
+          if(dist[v] == dist[u]+1 && f[u][v] < c[u][v]){
+                int res = dfs(v,t,min(flow,c[u][v]-f[u][v]));
+                if(res != -1) {
+                    f[u][v] += res;
+                    f[v][u] -= res;
+                    return res;
+                }
+            }
+        return -1;
+    }
+/*88888*/
+int tot = 0;
+void input(){
+    scanf("%d %lf",&n,&D);
+    D*=D;
+    d = (ll) D;
+    for(int i=1;i<=n;i++)   scanf("%lld %lld %d %d",&x[i],&y[i],&u[i],&v[i]);
+    N = 2*n+1 ;
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=n;j++)
+            if(dis(x[i],y[i],x[j],y[j])<=d && i!=j) {
+                c[2*i][2*j-1] = INF;
+            }
+    for(int i=1;i<=n;i++){
+        c[2*i-1][2*i] = v[i];
+    }
+    for(int i=1;i<=n;i++){
+        c[0][2*i-1] = u[i];
+        tot+=u[i];
+    }
+    for(int pos=1;pos<=n;pos++){
+        c[2*pos-1][N] = INF;
+        int max_flow = 0;
+        memset(f,0,sizeof f);
+        while(bfs(0,N)){
+            int curr = dfs(0,N,INF);
+            max_flow+=curr;
+        }
+        if(max_flow == tot) ans.push_back(pos);
+        c[2*pos-1][N] = 0;
+    }
+    if(ans.size() == 0 ) printf("-1");
+    else  for(int i=0;i<ans.size();i++) printf("%d ",ans[i]-1);
+}
+main(){
+    //freopen("test.inp","r",stdin);
+    input();
+}
+

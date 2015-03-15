@@ -1,0 +1,88 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#include <queue>
+#define sqr(a) ((a)*(a))
+using namespace std;
+
+const int N = 204;
+int dis[N], c[N][N], f[N][N], n, x[N], y[N], all = 0, sum = 1000, ans;
+
+bool bfs(int s, int t){
+	queue<int> q;
+	memset(dis, 0xff, sizeof dis);
+	dis[s] = 0;
+	q.push(s);
+	while(!q.empty()){
+		int u = q.front();
+		q.pop();
+		for(int v=0; v<n; v++) if(dis[v] == -1 && f[u][v] < c[u][v]){
+			dis[v] = dis[u]+1;
+			q.push(v);
+		}
+	}
+	return dis[t] != -1;
+}
+
+int dfs(int s, int t, int flow){
+	if(s == t) return flow;
+	for(int u=0; u<n; u++) if(dis[u] == dis[s]+1 && f[s][u] < c[s][u]){
+		int tmp = dfs(u, t, min(flow, c[s][u]-f[s][u]));
+		if(tmp > 0){
+			f[s][u] += tmp;
+			f[u][s] -= tmp;
+			return tmp;
+		}
+	}
+	return 0;
+}
+
+bool ok(){
+	memset(f, 0, sizeof f);
+	ans = 0;
+	while(bfs(0, n-1)){
+		while(1){
+			int d = dfs(0, n-1, sum);
+			if(d == 0) break;
+			ans += d;
+		}
+	}
+	return ans == all;
+}
+
+void init(){
+	int m;
+	double d;
+	cin >> m >> d;
+	n = 2*m+2;
+	for(int i=1, p, h; i<=m; i++){
+		cin >> x[i] >> y[i] >> p >> h;
+		c[0][2*i-1] = p;
+		c[2*i-1][2*i] = h;
+		all += p;
+		sum += p+h;
+	}
+	for(int i=1; i<=m; i++)
+		for(int j=1; j<=m; j++) if(j!=i && sqr(x[i]-x[j]) + sqr(y[i]-y[j]) <= d*d){
+			c[2*i][2*j-1] = 1000;
+			sum += 1000;
+		}
+	bool have = 0;
+	for(int i=1; i<=m; i++){
+		c[2*i-1][n-1] = 1000;
+		if(ok()){
+			cout << i-1 << ' ';
+			have = 1;
+		}
+		c[2*i-1][n-1] = 0;
+	}
+	if(have == 0) cout << -1;
+}
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	init();
+}
