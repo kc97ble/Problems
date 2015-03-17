@@ -1,0 +1,34 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<queue>
+#include<stack>
+#include<algorithm>
+using namespace std;
+long long n,m,t;
+long long F[60][60][60][120];
+long long G[60][60][60][120];
+long long f(long long i,long long w0,long long w1,long long k)
+{
+	if (k<0 or w0<0 or w1<0) return 0;
+	if (k==0) return 1;
+	if (i>=n+1) return 0;
+	if (w0==0 and w1==0) return 0;
+	if (G[i][w0][w1][k]==t+1) return F[i][w0][w1][k];
+	else G[i][w0][w1][k]=t+1;
+	return  F[i][w0][w1][k]=(
+			w0*f(i+1,w0-1,w1+1,k-1)+w1*f(i+1,w0,w1-1,k-1)
+			+f(i+1,w0,w1,k)
+			+w0*(w0-1)/2*f(i+1,w0-2,w1,k-2))%1000001;
+}
+int main()
+{
+	long long k,t1;
+	cin>>t1;
+	for(t=1;t<=t1;t++)
+	{
+		cin>>n>>m>>k;
+		cout<<f(1,m,0,k)<<endl;	
+	}
+}
+

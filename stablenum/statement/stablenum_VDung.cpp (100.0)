@@ -1,0 +1,148 @@
+#include <cstdio>
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+
+using namespace std;
+
+long long int re[21][15][2][2];
+bool sign[21][15][2][2];
+long long int a[21], b[21], c[21];
+long long int n, m, sum;
+
+long long int f(long long int i, long long int j, long long int ba, long long int bb){
+	long long int t, x= ba, y= bb;
+	if(sign[i][j][ba][bb]) return re[i][j][ba][bb];
+	if(i==n+1){
+		re[i][j][ba][bb]= 1;
+		sign[i][j][ba][bb]= true;
+		return 1;
+	}
+	if(j==10){
+		for(t=0;t<=9;t++){
+			ba= x; bb= y;
+			if(bb==0 && t>b[i]) continue;
+			if(ba==0 && t<a[i]) continue;
+			if(ba==0 && t>a[i]) ba= 1;
+			if(bb==0 && t<b[i]) bb= 1;
+			if(t==0) re[i][j][x][y]+= f(i+1,10,ba,bb);
+			else re[i][j][x][y]+= f(i+1,t,ba,bb);
+		}
+	}
+	else{
+		for(t=0;t<=9;t++){
+			ba= x; bb= y;
+			if(bb==0 && t>b[i]) continue;
+			if(ba==0 && t<a[i]) continue;
+			if(abs(t-j)>1) continue;
+			if(ba==0 && t>a[i]) ba= 1;
+			if(bb==0 && t<b[i]) bb= 1;
+			re[i][j][x][y]+= f(i+1,t,ba,bb);
+		}
+	}
+	sign[i][j][x][y]= true;
+	return re[i][j][x][y];
+}
+
+void d(long long int i, long long int j, long long int ba, long long int bb){
+	long long int t, x= ba, y= bb, s=0;
+	if(i==n+1){
+		return;
+	}
+	if(j==10){
+		for(t=0;t<=9;t++){
+			ba= x; bb= y;
+			if(bb==0 && t>b[i]) continue;
+			if(ba==0 && t<a[i]) continue;
+			if(ba==0 && t>a[i]) ba= 1;
+			if(bb==0 && t<b[i]) bb= 1;
+			if(t==0) {
+				s+= re[i+1][10][ba][bb];
+				if(s>=sum){
+					s-= re[i+1][10][ba][bb];
+					sum-= s;
+					d(i+1,10,ba,bb);
+					break;
+				}
+			}
+			else {
+				s+= re[i+1][t][ba][bb];
+				if(s>=sum){
+					s-= re[i+1][t][ba][bb];
+					sum-= s;
+					cout << t;
+					d(i+1,t,ba,bb);
+					break;
+				}
+			}
+		}
+	}
+	else{
+		for(t=0;t<=9;t++){
+			ba= x; bb= y;
+			if(bb==0 && t>b[i]) continue;
+			if(ba==0 && t<a[i]) continue;
+			if(abs(t-j)>1) continue;
+			if(ba==0 && t>a[i]) ba= 1;
+			if(bb==0 && t<b[i]) bb= 1;
+			s+= re[i+1][t][ba][bb];
+			if(s>=sum){
+				s-= re[i+1][t][ba][bb];
+				sum-= s;
+				cout << t;
+				d(i+1,t,ba,bb);
+				break;
+			}
+		}
+	}
+	return;
+}
+
+int main(){
+	long long int x, y, z, i, s;
+	cin >> x >> y >> z;
+	x++; y--;
+	if(x>y){
+		if(z==1) cout << 0 << endl;
+		else cout << 0 << " " << 0  << endl;
+		return 0;
+	}
+	while(x!=0){
+		n++;
+		a[n]= (x%10);
+		x/= 10;
+	}
+	while(y!=0){
+		m++;
+		b[m]= (y%10);
+		y/= 10;
+	}
+	for(i=1;i<=n;i++) c[i]= a[n-i+1];
+	for(i=1;i<=n;i++) a[i]= c[i];
+	for(i=1;i<=m-n;i++) c[i]= 0;
+	for(i=m-n+1;i<=m;i++) c[i]= a[i-m+n];
+	for(i=1;i<=m;i++) a[i]= c[i];
+	for(i=1;i<=m;i++) c[i]= b[m-i+1];
+	for(i=1;i<=m;i++) b[i]= c[i];
+	n= m;
+	if(z==1){
+		cout << f(1,10,0,0) << endl;
+	}
+	else{
+		s= f(1,10,0,0);
+		if(s%2==1){
+			sum= s/2 + 1;
+			d(1,10,0,0);
+			printf("\n");
+		}
+		else{
+			sum= s/2;
+			d(1,10,0,0);
+			printf(" ");
+			sum= s/2+1;
+			d(1,10,0,0);
+			printf("\n");
+		}
+	}
+	return 0;
+}

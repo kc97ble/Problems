@@ -1,0 +1,62 @@
+#include<cstdio>
+#include<cstring>
+#include<vector>
+#include<queue>
+using namespace std;
+vector<int> a[51];
+int matchX[51]={0},matchY[101]={0},d[101],n;
+
+int find_match(int u)
+{
+    int next;
+    for(int i=0;i<a[u].size();++i)
+    {
+        int v=a[u][i];
+        if(d[v]) continue;
+        d[v]=u;
+        if(!matchY[v]) return v;
+        if(next=find_match(matchY[v])) return next;
+    }
+    return 0;
+}
+
+void enlarge(int y)
+{
+    int x,next;
+    while(y)
+    {
+        x=d[y];
+        next=matchX[x];
+        matchX[x]=y;
+        matchY[y]=x;
+        y=next;
+    }
+}
+
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int i,j,x[51],y[51],z[51];
+    scanf("%d",&n);
+    for(i=1;i<=n;++i) scanf("%d",&x[i]);
+    for(i=1;i<=n;++i) scanf("%d",&y[i]);
+    for(i=1;i<=n;++i) scanf("%d",&z[i]);
+    for(i=1;i<=n;++i)
+        for(j=1;j<=n;++j) if(i!=j && x[i]<=x[j] && y[i]<=y[j] && z[i]<=z[j])
+        {
+            if(x[i]==x[j] && y[i]==y[j] && z[i]==z[j] && i<j) continue;
+            a[i].push_back((j<<1)-1);
+            a[i].push_back(j<<1);
+            //printf("%d %d\n",i,j);
+        }
+    for(i=1;i<=n;++i) if(!matchX[i])
+    {
+        memset(d,0,sizeof d);
+        if(j=find_match(i)) enlarge(j);
+    }
+    j=0;
+    for(i=1;i<=n;++i) if(matchX[i]) ++j;
+    printf("%d",n-j);
+    //for(i=1;i<=n;++i) if(matchX[i]) printf("%d %d\n",i,(matchX[i]+1)>>1);
+}
+

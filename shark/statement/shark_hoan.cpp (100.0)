@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+int res,cg[200],x[200],y[200],z[200];
+vector<int> adj[200];
+bool visit[200],eaten[200],d[200][200];
+bool dfs(int u)
+{
+    int i,v;
+    if(visit[u]) return false;
+    visit[u]=true;
+    for(i=0;i<adj[u].size();i++)
+    {
+        v=adj[u][i];
+        if(!cg[v]||dfs(cg[v]))
+        {
+            cg[u]=v;
+            cg[v]=u;
+            return true;
+        }
+    }
+    return false;
+}
+int main()
+{
+	int i,n,j;
+	cin>>n;
+	for(i=1;i<=n;i++)
+	{
+		cin>>x[i];
+	}
+	for(i=1;i<=n;i++)
+	{
+		cin>>y[i];
+	}
+	for(i=1;i<=n;i++)
+	{
+		cin>>z[i];
+	}
+	for(i=1;i<=n;i++)
+	{
+		for(j=1;j<=n;j++)
+		{
+			if(!d[i][j]&&x[i]>=x[j]&&y[i]>=y[j]&&z[i]>=z[j]&&i!=j)
+			{
+				d[i][j]=d[j][i]=true;
+				//cout<<"cg "<<i<<' '<<j<<'\n';
+				adj[i].push_back(2*n+j);
+				adj[i+n].push_back(2*n+j);
+				adj[2*n+j].push_back(i);
+				adj[2*n+j].push_back(i+n);
+			}
+		}
+	}
+	for(i=1;i<=2*n;i++)
+	{
+		memset(visit,false,sizeof(visit));
+		dfs(i);
+	}
+	res=n;
+	for(i=1;i<=n;i++)
+	{
+		if(cg[i+2*n]) res--;
+	}
+	cout<<res;
+}

@@ -1,0 +1,46 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+const int mod = 1e6+1, N = 54;
+int f[2][N][N][N][N], n, m, k, C[N][N];
+
+
+int MAIN(){
+	memset(f, 0, sizeof f);
+	f[1][0][0][0][0] = 1;
+	int ans = 0;
+	cin >> n >> m >> k;
+	for(int i=0; i<=n; i++)
+		for(int j=0; j<=m; j++)
+			for(int l=0; l<=m; l++)
+				for(int t = j+l; t<=j+2*l && t <=k; t++)
+					for(int c=0; c<2; c++) if(f[c][i][j][l][t]){
+						int &xx = f[c][i][j][l][t];
+						
+						
+						//cout << c << ' ' << i << ' ' << j << ' ' << l << ' ' << t << ' ' << xx << '\n';
+						
+						if(t == k) ans = (ans+1LL*xx*C[n][i])%mod;
+						if(j+l < m)	f[0][i+1][j+1][l][t+1] = (f[0][i+1][j+1][l][t+1] + xx*(m-j-l))%mod;
+						if(j+l+1 < m) f[1][i+1][j][l+2][t+2] = (f[1][i+1][j][l+2][t+2] + xx*C[m-j-l][2])%mod;
+						//if(j >= 2) f[1][i+1][j-2][l+2] = (f[1][i+1][j-2][l+2] + xx*C[j][2])%mod;
+						//if(j >= 1 && j+l < m) f[1][i+1][j][l+1] = (f[1][i+1][j][l+1] + xx*j*(m-j-l))%mod;
+						if(j) f[0][i+1][j-1][l+1][t+1] = (f[0][i+1][j-1][l+1][t+1] + xx*j)%mod;
+					}
+	return ans;
+}
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	for(int i=0; i<N; i++) C[i][i] = C[i][0] = 1;
+	for(int i=2; i<N; i++)
+		for(int j=1; j<i; j++) C[i][j] = (C[i-1][j]+C[i-1][j-1])%mod;
+	int t;
+	cin >> t;
+	while(t--) cout << MAIN() << '\n';
+}

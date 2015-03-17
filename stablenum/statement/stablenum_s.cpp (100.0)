@@ -1,0 +1,59 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<stack>
+#include<algorithm>
+#include<queue>
+#include<math.h>
+#include<set>
+#include<map>
+using namespace std;
+long long a[100],b[100];
+long long F[32][10][2][2][2];
+bool      G[32][10][2][2][2];
+#define value i][be][a1][b1][zero
+long long f(long long i,long long be,bool a1,bool b1,bool zero,long long truy=0)
+{
+	long long j,ma,mi;
+	if (i==0) if  (a1==1 and b1==1) return 1;
+	else return 0;
+	if (G[value]++ and truy==0) return F[value];
+	long long res=0,res1=0;
+	if (zero==1) {ma=max(0ll,be-1),mi=min(be+1,9ll);}else
+				 {ma=0;mi=9;}
+				 
+		for(j=ma;j<=mi;j++)
+		if (a1 or (j>=a[i]))
+		if (b1 or (j<=b[i])) 
+		{
+			res+=f(i-1,j,a1 or (j>a[i]),b1 or (j<b[i]),zero or (j!=0));
+			if (truy!=0 and truy<=res) {if (zero or (j!=0)) printf("%lld",j);f(i-1,j,a1 or (j>a[i]),b1 or (j<b[i]),zero or (j!=0),truy-=res1);return 0;}
+			res1=res;	
+		}
+	return F[value]=res;
+}
+int main()
+{
+	long long A,B,x,i,res;
+	cin>>A>>B;
+	long long mi=1000;
+	for(i=1,x=A;x!=0;i++,x/=10) a[i]=x%10;
+	for(i=1,x=B;x!=0;i++,x/=10) b[i]=x%10;
+	cin>>i;
+	if (i==1) cout<<f(31,0,0,0,0);	
+	else 
+	{
+		x=f(31,0,0,0,0);	
+		if (x%2==1)
+			f(31,0,0,0,0,x/2+1);
+		else 
+		{
+			f(31,0,0,0,0,x/2);
+			printf(" ");
+			f(31,0,0,0,0,x/2+1);
+		}
+	}
+		
+	
+}
+

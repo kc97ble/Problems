@@ -1,0 +1,74 @@
+#include<stdio.h>
+#define ll long long
+#define M 20
+#define M1 10
+#define ll long long
+#include<string.h>
+using namespace std;
+ll f[M][M1][3];
+ll A,B;
+int digit[M];
+int n;
+int task;
+int abs(int n){
+    if( n >= 0 ) return n;
+    return -n;
+}
+ll cal(ll res){
+    n = 0;
+    while(res > 0){
+        n++;
+        digit[n] = res%10;
+        res/=10;
+    }
+    memset(f,0,sizeof f);
+    for(int first = 0 ; first < 10 ; first++)
+        f[1][first][(first<=digit[1])] = 1;
+    for(int i = 1 ; i < n ; i++)
+        for(int lastdigit = 0 ; lastdigit < 10 ; lastdigit++)
+            for(int nextdigit = 0 ; nextdigit < 10 ; nextdigit++)
+                for(int cmd = 0 ; cmd < 2 ; cmd++)
+                    if( abs(nextdigit-lastdigit) <= 1)
+                        f[i+1][nextdigit][(nextdigit<digit[i+1] || (nextdigit==digit[i+1] && cmd == 1))]+=f[i][lastdigit][cmd];
+    ll ans = 0;
+  //  printf("%lld\n",f[2][1][1]);
+    for(int i = 1 ; i < n ; i++)
+        for(int lastdigit = 1 ; lastdigit < 10 ; lastdigit++)
+            for(int cmd = 0 ; cmd < 2 ; cmd++)
+                ans+=f[i][lastdigit][cmd];
+    for(int lastdigit = 1 ; lastdigit < 10 ; lastdigit++)
+        ans+=f[n][lastdigit][1];
+    return ans;
+}
+void solve(){
+    ll tot = cal(B) - cal(A-1);
+    ll tmp = ( tot + 1 ) / 2;
+    ll lo = A;
+    ll hi = B;
+    while( lo < hi ){
+        ll mid = ( lo +hi ) / 2;
+        if(cal(mid) - cal(A-1) >= tmp) hi = mid;
+        else lo = mid + 1;
+    }
+    printf("%lld ",lo);
+    if(tot%2) return ;
+    tmp++;
+    lo = A ; hi = B;
+    while( lo < hi ){
+        ll mid = ( lo +hi ) / 2;
+        if(cal(mid) - cal(A-1) >= tmp) hi = mid;
+        else lo = mid + 1;
+    }
+    printf("%lld",lo);
+}
+int main(){
+   // freopen("test.inp","r",stdin);
+    scanf("%lld %lld",&A,&B);
+    A++ ; B--;
+    scanf("%d",&task);
+    if( task == 1 ){
+        printf("%lld",cal(B)-cal(A-1));
+        return 0;
+    }
+    solve();
+}

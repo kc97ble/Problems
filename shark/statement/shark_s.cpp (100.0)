@@ -1,0 +1,93 @@
+#include<cstdio>
+#include<vector>
+#include<iostream>
+#include<queue>
+#include<stack>
+#include<algorithm>
+#include<queue>
+#include<math.h>
+#include<set>
+#include<map>
+#define X first
+#define Y second
+using namespace std;
+typedef pair<int,int> ii;
+typedef pair<ii,ii> iiii;
+int a[1000],b[1000],c[1000];
+vector <int> t[10000];
+vector <iiii> q;
+int n;
+int d[10000];
+int fuckx[10000];
+int fucky[10000];
+void doing(int y)
+{
+	int x,next;
+	for(;y!=0;y=next)
+	{
+		x=d[y];
+		next=fuckx[x];
+		fucky[y]=x;
+		fuckx[x]=y;
+	}
+}
+void bfs()
+{
+	queue <int> pq;
+	bool d1;
+	int i,u,v;
+	for(;;)
+	{
+		
+		d1=true;
+		while(pq.size()) pq.pop();
+		for(i=1;i<=2*n;i++) if (fuckx[i]==0) pq.push(i);
+		for(i=1;i<=n;i++) d[i]=0;
+		while(pq.size())
+		{
+			u=pq.front();
+			pq.pop();
+			for(i=0;i<t[u].size();i++)
+			{
+				if (d[t[u][i]]==0)
+				{
+					v=t[u][i];
+					d[v]=u;
+					if (fucky[v]==0) {doing(v);d1=false;break;}
+					else pq.push(fucky[v]);
+				}
+				if (d1==false) break;	
+			}
+			if (d1==false) break;
+		}
+		if (d1==true) break;
+	}
+}	
+int main()
+{
+	int i,r,x,y,z,i1,i2,j,x1,y1,z1;
+	scanf("%d",&n);
+	for(i=1;i<=n;i++) scanf("%d",&a[i]);
+	for(i=1;i<=n;i++) scanf("%d",&b[i]);
+	for(i=1;i<=n;i++) scanf("%d",&c[i]);
+	for(i=1;i<=n;i++) q.push_back(iiii(ii(a[i],b[i]),ii(c[i],i)));
+	sort(q.begin(),q.end());
+	for(i=0;i<n;i++)
+		for(j=0;j<i;j++)			
+			if (q[i].X.X>=q[j].X.X and q[i].X.Y>=q[j].X.Y and q[i].Y.X>=q[j].Y.X) 
+			{
+				//printf("%d %d\n",q[i].Y.Y,q[j].Y.Y);
+				t[q[i].Y.Y].push_back(q[j].Y.Y);
+				t[q[i].Y.Y+n].push_back(q[j].Y.Y);
+			}
+	bfs();
+	r=0;
+	for(i=1;i<=2*n;i++)
+		if (fuckx[i]!=0) r++;		
+	printf("%d\n",n-r);	
+		
+		
+	
+	
+}
+

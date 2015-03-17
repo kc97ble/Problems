@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+#define CUR cur][lz][prev][l][h
+using namespace std;
+long long f[20][2][10][2][2];
+string lo,hi;
+int dp(int cur,int lz,int prev,int l,int h)
+{
+	if(cur>=lo.length()) return 1;
+	if(f[CUR]!=-1) return f[CUR];
+	int a,b,i;
+	a=lo[cur]-'0';
+	b=hi[cur]-'0';
+	f[CUR]=0;
+	for(i=0;i<=9;i++)
+	{
+		if(i<a&&l==0) continue;
+		if(i>b&&h==0) continue;
+		if(lz&&abs(prev-i)>1) continue;
+		f[CUR]+=dp(cur+1,(i!=0||lz),i,(i>a||l),(i<b||h));
+	}
+	return f[CUR];
+}
+void cong()
+{
+	int tmp,carry=1,i;
+	reverse(lo.begin(),lo.end());
+	for(i=0;i<lo.length();i++)
+	{
+		tmp=lo[i]-'0'+carry;
+		lo[i]=tmp%10+'0';
+		carry=tmp/10;
+	}
+	if(carry) lo+=(carry+'0');
+	reverse(lo.begin(),lo.end());
+}
+void tru()
+{
+	int i,tmp,carry=1;
+	reverse(hi.begin(),hi.end());
+	for(i=0;i<hi.length();i++)
+	{
+		tmp=hi[i]-'0'-carry;
+		if(tmp<0)
+		{
+			hi[i]=(tmp+10)%10+'0';
+			carry=1;
+		}
+		else
+		{
+			hi[i]=tmp%10+'0';
+			carry=0;
+		}
+	}
+	reverse(hi.begin(),hi.end());
+}
+void trace(int cur,int lz,int prev,int l,int h,int pos)
+{
+	if(cur>=lo.length()) return;
+	long long tmp=0;
+	int a,b,i;
+	//cout<<cur<<' '<<lz<<' '<<prev<<' '<<l<<' '<<h<<' '<<pos<<'\n';
+	a=lo[cur]-'0';
+	b=hi[cur]-'0';
+	for(i=0;i<=9;i++)
+	{
+		if(i<a&&l==0) continue;
+		if(i>b&&h==0) continue;
+		if(lz&&abs(prev-i)>1) continue;
+		if(tmp+dp(cur+1,(i!=0||lz),i,(i>a||l),(i<b||h))>pos)
+		{
+			if(lz||i) cout<<i;
+			trace(cur+1,(i!=0||lz),i,(i>a||l),(i<b||h),pos-tmp);
+			return;
+		}
+		tmp+=dp(cur+1,(i!=0||lz),i,(i>a||l),(i<b||h));
+	}
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	int question;
+	memset(f,-1,sizeof(f));
+	cin>>lo>>hi;
+	cin>>question;
+	cong();
+	tru();
+	while(lo.length()<19) lo="0"+lo;
+	while(hi.length()<19) hi="0"+hi;
+	if(question==1)
+	{
+		cout<<dp(0,0,0,0,0);
+	}
+	else
+	{
+		long long tmp=dp(0,0,0,0,0);
+		if(tmp%2)
+		{
+			trace(0,0,0,0,0,(tmp+1)/2-1);
+			cout<<'\n';
+		}
+		else{
+			trace(0,0,0,0,0,(tmp)/2-1);
+			cout<<' ';
+			trace(0,0,0,0,0,(tmp)/2);
+		}
+	}
+}

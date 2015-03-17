@@ -1,0 +1,86 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+#define long long long
+#define rep(i, n) for(int i=0; i<int(n); i++)
+
+long A, B, f[2][2][2][10][20];
+int a[20], b[20];
+
+long F(bool less, bool more, bool has, int pre, int d) {
+	long &ans = f[less][more][has][pre][d];
+	if(ans != -1) return ans;
+	if(d == 0) return 1;
+	ans = 0;
+	if(has) for(int i=max(0, pre-1); i<=min(9, pre+1); i++) if(less || i <= b[d]) if(more || i >= a[d]) {
+		ans += F(less | i < b[d], more | i > a[d], 1, i, d-1);
+	}
+	if(!has) for(int i=0; i<10; i++) if(less || i <= b[d]) if(more || i >= a[d]) {
+		ans += F(less | i < b[d], more | i > a[d], has || i, i, d-1);
+	}
+	return ans;
+}
+
+int K;
+
+void G(bool less, bool more, bool has, int pre, int d) {
+	if(d == 0) return;
+	long ans = 0, tmp = 0;
+	if(has) for(int i=max(0, pre-1); i<=min(9, pre+1); i++) if(less || i <= b[d]) if(more || i >= a[d]) {
+		tmp = ans;
+		ans += F(less | i < b[d], more | i > a[d], 1, i, d-1);
+		if(ans >= K){
+			cout << i;
+			K -= tmp;
+			G(less | i < b[d], more | i > a[d], 1, i, d-1);
+			break;
+		}
+	}
+	if(!has) for(int i=0; i<10; i++) if(less || i <= b[d]) if(more || i >= a[d]) {
+		tmp = ans;
+		ans += F(less | i < b[d], more | i > a[d], has || i, i, d-1);
+		if(ans >= K){
+			if(i) cout << i;
+			K -= tmp;
+			G(less | i < b[d], more | i > a[d], has || i, i, d-1);
+			break;
+		}
+	}
+}
+
+void MAIN(){
+	cin >> A >> B;
+	A++; B--;
+	memset(f, 0xff, sizeof f);
+	for(int i=1; i<20; i++){
+		a[i] = A%10;
+		b[i] = B%10;
+		A/=10; B/=10;
+	}
+	int cmd;
+	cin >> cmd;
+	if(cmd == 1) cout << F(0, 0, 0, 0, 19);
+	else {
+		long k = F(0, 0, 0, 0, 19);
+		if(k&1){
+			K = k+1>>1;
+			G(0, 0, 0, 0, 19);
+		} else {
+			K = k>>1;
+			G(0, 0, 0, 0, 19);
+			cout << ' ';
+			K = (k>>1)+1;
+			G(0, 0, 0, 0, 19);
+		}
+	}
+}
+
+int main(){
+	//freopen("input.in", "r", stdin);
+	ios::sync_with_stdio(false);
+	MAIN();
+}
