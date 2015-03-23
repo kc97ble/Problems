@@ -1,0 +1,33 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int N = 1e5+5, mInc = 102, INF = 1e9 + 5e8;
+int f[mInc+1], x[mInc+2], y[mInc+2], n, c, h[N];
+
+int main(){
+	//freopen("telewire.in", "r", stdin);
+	//freopen("telewire.out", "w", stdout);
+	scanf("%d %d", &n, &c);
+	for(int i = 1; i <= n; i++) scanf("%d", h+i);
+	h[0] = h[1];
+	for(int i = 1; i <= n; i++){
+		for(int j = 0; j < mInc; j++){
+			int m = h[i] - h[i-1] + j;
+			if(m < 0) m = 0;
+			if(m > mInc) m = mInc;
+
+			if(i > 1) f[j] = min(y[m] - c*(h[i] + j) , x[m] + c*(h[i] + j) )+ j*j;
+            else f[j] = j*j;
+            //printf("%d %d %d\n", i, j, f[j]);
+		}
+		x[0] = INF;
+		for(int j = 0; j < mInc; j++) x[j+1] = min(x[j], f[j] - c*(h[i] + j) );
+		y[mInc] = INF;
+		for(int j = mInc - 1; j >= 0; j--) y[j] = min(y[j+1], f[j] + c*(h[i] + j) );
+	}
+	int ans = INF;
+	for(int i = 0; i < mInc; i++) if(f[i] < ans) ans = f[i];
+	printf("%d", ans);
+}
