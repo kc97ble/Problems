@@ -1,0 +1,7 @@
+The .out files are just one possible output.
+
+To check your outputs, compile tester.cc:
+g++ -O2 -o tester tester.cc
+
+and use it:
+./tester input your_output correct_output
