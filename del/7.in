@@ -1,0 +1,10 @@
+8
++ a.txt
++ aa.txt
++ aaa.txt
++ aaaa.txt
+- aaaaa.txt
+- aaaaaa.txt
+- aaaaaaa.txt
+- aaaaaaaa.txt
+aaaaa*.txt
