@@ -39,7 +39,7 @@ int main() {
     }
     else c += a[i];
     grid.push_back(c);
-    fprintf(fa,"%d %d", grid.size(), grid[0].size());
+    fprintf(fa,"%d %d\n", grid.size(), grid[0].size());
     for (int i = 0; i < grid.size(); i++) fprintf(fa,"%s\n", grid[i].c_str());
     
     FILE* fb = fopen((convert(T) + ".out").c_str(),"w");
