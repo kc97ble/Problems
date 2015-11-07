@@ -1,0 +1,109 @@
+\documentclass[a4paper,11pt,oneside]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+%\usepackage[vietnam,arabic,numbering]{olymp}
+%\usepackage[vietnam,numbering]{olymp}
+\usepackage[vietnam]{olymp}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color} % for colored text
+\usepackage{import} % for changing current dir
+\usepackage{epigraph}
+\usepackage{daytime} % for displaying version number and date
+\usepackage{wrapfig} % for having text alongside pictures
+\usepackage{verbatim}
+\usepackage{tikz}
+
+\contest
+{}%
+{}%
+{}%
+
+\begin{document}
+
+\begin{problem}{Casino}{casino.in}{casino.out}{2 giây}{256 mebibytes}
+A.	RR là một tay chơi ở casino. Trên bàn casino có $n$ hàng và $m$ cột, trên mỗi ô có một con số, RR có $k$ quân domino $1 \times 2$ trên tay, RR phải đặt các quân domino xuống bàn sao cho chúng không đè lên nhau. Số tiền RR thu được sẽ bằng tổng của tích hai số của những ô nằm trên vị trí của quân domino.
+
+\InputFile
+Dòng đầu tiên chứa 3 số nguyên $n, m$ và $k$ $(1 \leq n, m \leq 30; 1 \leq k \leq 200)$
+$n$ dòng sau mỗi dòng chứa $m$ số, số thứ $j$ trên dòng thứ $i$ là $a_{i, j}$ $(1 \leq a_{i, j} \leq 100)$
+
+\OutputFile
+Với mỗi test in số tiền lớn nhất mà RR có thể kiếm được
+
+\Examples
+\begin{example}%
+	\exmp{
+		2 2 2
+		1 4							
+		3 2
+	}{
+		11
+	}%
+	\exmp{
+		3 3 1
+		9 1 1
+		1 4 4
+		1 4 4
+	}{
+		16
+	}%
+\end{example}
+\end{problem}
+
+\begin{problem}{Ninja}{ninja.in}{ninja.out}{2 giây}{256 mebibytes}
+Các ninja làng IOI cần giết $n$ người tại $n$ địa điểm khác nhau được đánh dấu từ $1$ đến $n$. Các địa điểm được nối với nhau bởi $m$ con đường một chiều. Mỗi ninja có thể xuất phát từ một địa điểm nào đó đi trên một lộ trình nào đó và giết sạch những người trên lộ trình đấy (lộ trình có thể rất lòng vòng). Hỏi cần tối thiểu bao nhiêu ninja để có thể hoàn thành nhiệm vụ.
+\InputFile
+Dòng đầu tiên chứa hai số nguyên $n$ và $m$ $(1 \leq n \leq 1000; 0 \leq m \leq 10\,000)$. $m$ dòng tiếp theo mỗi dòng chứa hai số $u$ và $v$ cho biết có đường một chiều nối từ địa điểm $u$ đến địa điểm $v$.
+\OutputFile
+Ghi ra một dòng duy nhất chứa kết quả
+\Examples
+\begin{example}%
+	\exmp{
+		5 4
+		1 2
+		1 3
+		4 1
+		5 1
+	}{
+		2
+	}%
+	\exmp{
+		7 0
+	}{
+		7
+	}%
+	\exmp{
+		8 8
+		1 2
+		2 3
+		3 4
+		4 1
+		1 6
+		6 7
+		7 8
+		8 6
+	}{
+		2
+	}%
+\end{example}
+\end{problem}
+
+\begin{problem}{Số tự do}{free.in}{free.out}{2 giây}{256 mebibytes}
+Một số được gọi là tự do nếu như trong biểu diễn thập phân của số đó không có bất kỳ xâu con nào là luỹ thừa của $11$ trừ trường hợp số $1$. Ví dụ số $2404$ và $13431$ là số tự do nhưng số $911$ và số $4121331$ không phải số tự do. Cho số $n$, hãy tìm số tự do thứ $n$.
+\InputFile
+Gồm một dòng chứa số nguyên $n$ $(1 \leq n \leq 10^{18})$.
+\OutputFile
+Ghi ra số tự do thứ $n$ trên một dòng.
+\Examples
+\begin{example}%
+	\exmp{3}{3}%
+	\exmp{200}{213}%
+	\exmp{500000}{531563}%
+\end{example}
+\end{problem}
+
+\end{document}

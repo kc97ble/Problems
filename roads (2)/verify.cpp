@@ -10,7 +10,7 @@ const int maxn = 20010;
 const int maxm = 100010;
 
 int n, m, k;
-map<int, int> hash;
+map<int, int> Hash;
 int edge[maxm][3];
 int father[maxn];
 
@@ -37,11 +37,11 @@ int main(int argc, char* argv[]) {
   ifstream fin(argv[1]);
   ifstream fout(argv[2]);
   fin >> n >> m >> k;
-  hash.clear();
+  Hash.clear();
   for (int i = 1; i <= m; ++i) {
     int u, v, c;
     fin >> u >> v >> c;
-    hash[u * maxn + v] = c + 1; 
+    Hash[u * maxn + v] = c + 1; 
     edge[i][0] = u;
     edge[i][1] = v;
     edge[i][2] = c;
@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
 	ok = false;
 	break;
       }
-      if (hash[u * maxn + v] != c + 1) {
+      if (Hash[u * maxn + v] != c + 1) {
 	ok = false;
 	break;
       }

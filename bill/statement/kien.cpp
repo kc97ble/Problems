@@ -30,8 +30,8 @@ int dijkstra(int S, int T, int DS) {
 }
 
 main() {
-	freopen("bill.inp", "r", stdin)&&
-	freopen("bill.out", "w", stdout);
+	//freopen("bill.inp", "r", stdin)&&
+	//freopen("bill.out", "w", stdout);
 	int S, T, DS;
 	cin >> n >> m;
 	cin >> S >> T >> DS >> G;

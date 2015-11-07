@@ -1,0 +1,1 @@
+checker input_file answer_file output_file
