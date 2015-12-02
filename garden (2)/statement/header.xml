@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<problem 
+    version="1.0"
+    id ="roi.day2.garden"
+>
+    <judging>
+        <script type ="%ioi">
+            <testset
+                name ="preliminary"
+
+                input-name  ="garden.in"
+                output-name ="garden.out"
+                input-href  ="preliminary/##"
+                answer-href ="preliminary/##.a"
+
+                time-limit ="1s"
+                memory-limit ="268435456"
+            >
+                <test points ="0" comment="Тест из условия"/>
+                <test points ="0" comment="Тест из условия"/>
+            </testset>
+
+            <testset
+                name ="main"
+
+                input-name  ="garden.in"
+                output-name ="garden.out"
+                input-href  ="tests/##"
+                answer-href ="tests/##.a"
+
+                time-limit ="1s"
+                memory-limit ="268435456"
+            >

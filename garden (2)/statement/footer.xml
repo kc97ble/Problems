@@ -1,0 +1,7 @@
+            </testset>
+            <verifier type="%testlib">
+                <binary executable-id ="x86.exe.win32" file ="check.exe" />
+            </verifier>
+        </script>
+    </judging>
+</problem>

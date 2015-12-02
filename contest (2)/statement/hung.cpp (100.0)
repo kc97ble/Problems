@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int> v[2][101];
+int a[2][101],b[2][101]={0},cont[2];
+bool c[101]={0};
+void dfs(int k,int t)
+{
+    c[k]=1;++cont[t];
+    for(int i=0;i<v[t][k].size();++i) if(!c[v[t][k][i]]) dfs(v[t][k][i],t);
+}
+int main(){
+    //freopen("test.inp","r",stdin);
+    int n,m,i,j;
+    scanf("%d%d",&n,&m);
+    while(m--)
+    {
+        scanf("%d%d",&i,&j);
+        v[0][i].push_back(j);
+        v[1][j].push_back(i);
+    }
+    int ans=0;
+    for(i=1;i<=n;++i)
+    {
+        cont[0]=cont[1]=0;
+        for(j=0;j<2;++j)
+        {
+            memset(c,0,sizeof c);
+            dfs(i,j);
+        }
+        if(cont[0]+cont[1]==n+1) ++ans;
+    }
+    printf("%d",ans);
+}

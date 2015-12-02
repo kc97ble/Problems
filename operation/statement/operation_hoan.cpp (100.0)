@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool visit[1000001];
+int pos[1000001];
+int p[1000001];
+int cnt;
+void dfs(int u)
+{
+	visit[u]=true;
+	pos[u]=cnt;
+	if(!visit[p[u]]) dfs(p[u]);
+}
+int main()
+{
+	int u,v,m,n,i;
+	scanf("%d%d",&n,&m);
+	for(i=1;i<=n;i++) scanf("%d",&p[i]);
+	for(i=1;i<=n;i++)
+	{
+		if(!visit[i]) 
+		{
+			cnt++;
+			dfs(i);
+		}
+	}
+	while(m--)
+	{
+		scanf("%d%d",&u,&v);
+		if((pos[u]==pos[1]&&pos[v]==pos[2])||(pos[u]==pos[2]&&pos[v]==pos[1])||(pos[u]==pos[v])) printf("Yes\n");
+		else printf("No\n");
+	}
+}

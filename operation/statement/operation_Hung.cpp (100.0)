@@ -1,0 +1,26 @@
+#include<cstdio>
+const int N=100005;
+int p[N],c[N];
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int n,m,i,j;
+    scanf("%d%d",&n,&m);
+    for(i=1;i<=n;++i) scanf("%d",&p[i]);
+    for(i=1;i<=n;++i) if(!c[i])
+    {
+        j=i;
+        while(!c[j])
+        {
+            c[j]=i;
+            j=p[j];
+        }
+    }
+    while(m--)
+    {
+        scanf("%d%d",&i,&j);
+        if(c[i]==c[j] || (c[i]==1 && c[j]==2) || (c[i]==2 && c[j]==1))
+            printf("Yes\n");
+        else printf("No\n");
+    }
+}

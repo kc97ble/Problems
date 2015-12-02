@@ -1,0 +1,44 @@
+#include<cstdio>
+const int N=3605;
+int a[N],f[N],ne[N],g[N];
+int main()
+{
+    //freopen("test.inp","r",stdin);
+    int n,m,i,j,k,b=1;
+    scanf("%d%d",&m,&n);
+    for(i=1;i<=m;++i)
+        for(j=1;j<=n;++j)
+        {
+            scanf("%d",&k);
+            a[i+n-j]+=k;
+        }
+    int p=m+n-1;
+    for(i=1;i<p;++i) a[2*p-i]=a[i];
+    for(i=2*p-1;i>0;--i)
+    {
+        f[i]=a[i];ne[i]=0;g[i]=1;
+        for(j=i+1;j<2*p;++j)
+            if((a[i]<a[j] || (a[i]==a[j] && (j<=p || i>p))) &&
+            (f[j]+a[i]>f[i] || (f[j]+a[i]==f[i] && g[j]+1<g[i])))
+            {
+                f[i]=f[j]+a[i];
+                ne[i]=j;
+                g[i]=g[j]+1;
+            }
+        /*for(j=2*p-1;j>i;--j)
+            if((a[i]<a[j] || (a[i]==a[j] && (j<=p || i>p))) &&
+            (f[j]+a[i]>f[i] || (f[j]+a[i]==f[i] && g[j]+1<g[i])))
+            {
+                f[i]=f[j]+a[i];
+                ne[i]=j;
+                g[i]=g[j]+1;
+            }*/
+    }
+    for(i=2;i<2*p;++i) if(f[b]<f[i] || (f[b]==f[i] && g[b]>g[i]+1)) b=i;
+    printf("%d\n%d\n",f[b],g[b]);
+    while(b)
+    {
+        printf("%d ",b>p?2*p-b:b);
+        b=ne[b];
+    }
+}

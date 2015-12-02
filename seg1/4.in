@@ -1,0 +1,9 @@
+3 7
+5 -4 9
+SET 1 0
+INC 1 3 -6
+SUM 2 2
+SET 2 0
+INC 1 2 -7
+SUM 1 3
+SUM 2 3

@@ -1,0 +1,27 @@
+Test case                             Marks
+
+small/small-plain-rectangle-0           2
+small/small-plain-sliding-0             2
+small/small-random-0                    2
+small/small-rectangle-0                 2
+small/small-sliding-0                   2
+
+medium/medium-plain-rectangle-0         5
+medium/medium-plain-rectangle-1         5
+medium/medium-plain-sliding-0           5
+medium/medium-plain-sliding-1           5
+medium/medium-random-0                  5
+medium/medium-random-1                  5
+medium/medium-rectangle-1               5
+medium/medium-sliding-0                 5
+
+large/large-plain-rectangle-0           5
+large/large-plain-rectangle-1           5
+large/large-plain-sliding-0             5
+large/large-plain-sliding-1             5
+large/large-random-0                    5
+large/large-random-1                    5
+large/large-rectangle-2                 5
+large/large-rectangle-3                 5
+large/large-sliding-2                   5
+large/large-sliding-3                   5

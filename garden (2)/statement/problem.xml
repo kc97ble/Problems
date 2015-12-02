@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="WINDOWS-1251"?>
+<problem 
+    version="1.0"
+    id ="roi.day2.garden"
+>
+    <judging>
+        <script type ="%ioi">
+            <testset
+                name ="preliminary"
+
+                input-name  ="garden.in"
+                output-name ="garden.out"
+                input-href  ="preliminary/##"
+                answer-href ="preliminary/##.a"
+
+                time-limit ="1s"
+                memory-limit ="268435456"
+            >
+                <test points ="0" comment="Тест из условия"/>
+                <test points ="0" comment="Тест из условия"/>
+            </testset>
+
+            <testset
+                name ="main"
+
+                input-name  ="garden.in"
+                output-name ="garden.out"
+                input-href  ="tests/##"
+                answer-href ="tests/##.a"
+
+                time-limit ="1s"
+                memory-limit ="268435456"
+            >
+            <test-group
+                comment = "Оранжерея квадратная, длина стороны не превышает 10, количество растений не превышает 6"
+                score = "group"
+                feedback = "group-score"
+                group-bonus = "10"
+            >
+                <test points = "0" comment = "Один квадрат" />
+                <test points = "0" comment = "Один квадрат" />
+                <test points = "0" comment = "Четыре квадрата" />
+                <test points = "0" comment = "Шесть квадратов" />
+            </test-group>
+            <test-group
+                comment = "Длины стороны не превышает 20, количество растений не превышает 20"
+                score = "group"
+                feedback = "group-score"
+                group-bonus = "20"
+            >
+                <test points = "0" comment = "Шаблон против квадратичного решения, w=h=13, n=14" />
+                <test points = "0" comment = "Случайное двоично-фрактальное разбиение первого вида, w=h=8, n=13" />
+                <test points = "0" comment = "Случайное двоично-фрактальное разбиение первого вида, w=h=16, n=13" />
+                <test points = "0" comment = "Случайное двоично-фрактальное разбиение первого вида, w=h=8, n=13" />
+                <test points = "0" comment = "Случайное двоично-фрактальное разбиение первого вида, w=h=16, n=7" />
+                <test points = "0" comment = "Случайное разбиение, w=17, h=20, n=9" />
+                <test points = "0" comment = "Случайное разбиение, w=20, h=19, n=20" />
+                <test points = "0" comment = "Случайное разбиение, w=20, h=20, n=8" />
+                <test points = "0" comment = "Один большой и много единичных квадратов, w=h=5, n=17" />
+            </test-group>
+            <test-group
+                comment = "Длины стороны не превышает 1000, количество растений не превышает 1000"
+                score = "group"
+                feedback = "group-score"
+                group-bonus = "30"
+            >
+                <test points = "0" comment = "Фрактальное двоичное разбиение, w=h=22, n=133" />
+                <test points = "0" comment = "Шаблон против квадратичного решения, w=h=931, n=122" />
+                <test points = "0" comment = "Случайное разбиение, w=500, h=780, n=9" />
+                <test points = "0" comment = "Случайное разбиение, w=239, h=17, n=46" />
+                <test points = "0" comment = "Случайное разбиение, w=1000, h=999, n=1000" />
+                <test points = "0" comment = "Случайное разбиение, w=1000, h=1000, n=74" />
+                <test points = "0" comment = "Случайное разбиение, w=1, h=999, n=999" />
+                <test points = "0" comment = "Случайное разбиение, w=1000, h=999, n=1000" />
+                <test points = "0" comment = "Один большой и много единичных квадратов, w=h=480, n=957" />
+            </test-group>
+            <test-group
+                comment = "Длины стороны не превышает 200000, количество растений не превышает 200000"
+                score = "sum"
+                feedback = "group-score"
+                group-bonus = "0"
+            >
+                <test points = "2" comment = "Фрактальное двоичное разбиение, w=h=9210, n=24433" />
+                <test points = "2" comment = "Шаблон против квадратичного решения, w=h=160401, n=1602" />
+                <test points = "2" comment = "Универсальный тест против квадратичных решений, w=h=173474, n=2498" />
+                <test points = "2" comment = "Случайное разбиение первого вида, w=h=450, n=66148" />
+                <test points = "2" comment = "Случайное разбиение второго вида, w=h=450, n=41652" />
+                <test points = "2" comment = "Один большой и много единичных квадратов, w=h=40451, n=161801" />
+                <test points = "2" comment = "Случайное двоично-фрактальное разбиение второго вида, w=h=216, n=5411" />
+                <test points = "2" comment = "Случайное двоично-фрактальное разбиение второго вида, w=h=1296, n=11761" />
+                <test points = "2" comment = "Случайное разбиение, w=200000, h=197999, n=110489" />
+                <test points = "2" comment = "Случайное разбиение, w=200000, h=200000, n=143161" />
+            </test-group>
+            <test-group
+                comment = "Длины стороны не превышает 10^12, количество растений не превышает 200000"
+                score = "sum"
+                feedback = "group-score"
+                group-bonus = "0"
+            >
+                <test points = "2" comment = "Фрактальное двоичное разбиение, w=h=883158154428, n=196429" />
+                <test points = "2" comment = "Шаблон против квадратичного решения, w=h=2499950001, n=199998" />
+                <test points = "2" comment = "Универсальный тест против квадратичных решений, w=h=173474, n=2498" />
+                <test points = "2" comment = "Случайное разбиение первого вида, w=h=1000, n=193345" />
+                <test points = "2" comment = "Случайное разбиение второго вида, w=h=1000, n=198447" />
+                <test points = "2" comment = "Один большой и много единичных квадратов, w=h=33333300000, n=199997" />
+                <test points = "2" comment = "Случайное двоично-фрактальное разбиение второго вида, w=h=7776, n=25021" />
+                <test points = "2" comment = "Случайное разбиение, w=1000000000000, h=979900000000, n=168502" />
+                <test points = "2" comment = "Случайное разбиение, w=979900000000, h=1000000000000, n=68883" />
+                <test points = "2" comment = "Случайное разбиение, w=1000000000000, h=1000000000000, n=10898" />
+            </test-group>
+            </testset>
+            <verifier type="%testlib">
+                <binary executable-id ="x86.exe.win32" file ="check.exe" />
+            </verifier>
+        </script>
+    </judging>
+</problem>

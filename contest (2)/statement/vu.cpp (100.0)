@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define II pair<int,int>
+#define X first
+#define Y second
+#define PB push_back
+int const N = 1000005, M = 100005, oo = 1000000007;
+
+int n,m,wincnt,lostcnt;
+vector<int> win[200],lost[200];;
+bool ck[200];
+
+void dfs(int a){
+	wincnt++;
+	ck[a]=1;
+	for(int i=0;i<win[a].size();i++){
+		if( ck[win[a][i]]==1 ) continue;
+		else dfs( win[a][i] );
+	}
+}
+
+void DFS(int a){
+	lostcnt++;
+	ck[a]=1;
+	for(int i=0;i<lost[a].size();i++){
+		if( ck[lost[a][i]]==1 ) continue;
+		else DFS( lost[a][i] );
+	}
+}
+
+bool check(int a){
+	wincnt=-1;lostcnt=-1;
+	for(int i=1;i<=n;i++) ck[i]=0;
+	dfs(a);
+	DFS(a);
+	
+	//cout<<wincnt<<' '<<lostcnt<<endl;
+	if( wincnt+lostcnt==(n-1) ) return 1;
+	return 0;
+
+}
+
+int main(){
+	int a,b,ans=0;
+	//freopen("test.txt","r",stdin);
+	cin>>n>>m;
+	for(int i=1;i<=m;i++){
+		cin>>a>>b;
+		win[a].PB(b);
+		lost[b].PB(a);
+	}
+
+	for(int i=1;i<=n;i++){
+		ans+=check(i);
+	}
+	cout<<ans;
+}

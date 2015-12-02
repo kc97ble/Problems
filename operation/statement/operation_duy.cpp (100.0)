@@ -1,0 +1,30 @@
+#include<stdio.h>
+#define M 100200
+int of[M];
+int p[M];
+int num_cycle = 0;
+int n,m;
+void dfs(int u){
+    of[u] = num_cycle;
+    if(of[p[u]] == 0 ) dfs(p[u]);
+}
+main(){
+   // freopen("test.inp","r",stdin);
+    scanf("%d %d",&n,&m);
+    for(int i = 1 ; i <= n ; i++)
+        scanf("%d",&p[i]);
+    for(int i = 1 ; i <= n ; i++)
+        if( of[i] == 0 ){
+            num_cycle++;
+            dfs(i);
+        }
+    for(int i = 1 ; i <= m ; i++){
+        int u,v;
+        scanf("%d %d",&u,&v);
+        if(of[u] == of[v]) printf("Yes");
+        else if(of[u] == of[1] && of[v] == of[2]) printf("Yes");
+        else if(of[u] == of[2] && of[v] == of[1]) printf("Yes");
+        else printf("No");
+        printf("\n");
+    }
+}
