@@ -22,8 +22,8 @@ struct worker : public deque<int> {
 } W;
 
 main() {
-	freopen("hack.inp", "r", stdin);
-	freopen("hack.out", "w", stdout);
+	//freopen("hack.inp", "r", stdin);
+	//freopen("hack.out", "w", stdout);
 	
 	scanf("%d", &n); k=n-n/2;
 	for (int i=1; i<=n; i++)

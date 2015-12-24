@@ -22,8 +22,8 @@ void dfs(int n, int k) {
 }
 
 main() {
-	freopen("apple.inp", "r", stdin) &&
-	freopen("apple.out", "w", stdout);
+	//freopen("apple.inp", "r", stdin) &&
+	//freopen("apple.out", "w", stdout);
 	
 	int n, k;
 	cin >> n >> k;

@@ -183,11 +183,6 @@ void add(int u, int v){
 }
 
 void solve(){
-	freopen("in.txt", "r", stdin);
-
-	gi(test);
-	For(itest, 1, test){
-		printf("Case %d: ", itest);
 		gi(n); gi(m);
 		E = 0;
 		ms(last, -1); ms(last1, -1); ms(flag, 0); ms(color, 0);
@@ -219,7 +214,6 @@ void solve(){
 		}
 
 		cout << num - hopkarp.maxmat() << endl;
-	}
 }
 
 int main(){

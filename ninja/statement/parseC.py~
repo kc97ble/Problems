@@ -5,9 +5,9 @@ with open("in.txt") as inf:
         inf.readline()
         cnt += 1
         n, m = map(int, inf.readline().strip().split())
-        with open("%02d.in" % cnt, "w") as inf2:
+        with open("%02d" % cnt, "w") as inf2:
             inf2.write("%d %d\n" % (n, m))
             for x in xrange(m):
                 inf2.write(inf.readline())
-        with open("%02d.ans" % cnt, "w") as ans2:
+        with open("%02d.a" % cnt, "w") as ans2:
             ans2.write(ans[ans.index(':')+2:])

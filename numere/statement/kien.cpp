@@ -28,8 +28,8 @@ long f(int u, int Used, long Index=0) {
 }
 
 main(){
-	freopen("numere.in", "r", stdin);
-	freopen("numere.out", "w", stdout);
+//	freopen("numere.in", "r", stdin);
+//	freopen("numere.out", "w", stdout);
 	
 	cin >> k >> a; n=strlen(a);
 	f0(i,n) f0(Used,1<<n) if ((1<<i)&(~Used))
