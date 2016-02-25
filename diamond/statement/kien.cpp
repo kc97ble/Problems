@@ -21,6 +21,8 @@ main(){
 	scanf("%d%d", &Seed, &Threshold);
 	f1(i,m) f1(j,n) a[i][j] = (next_int()>=Threshold);
 
+	f1(i,m) f1(j,n) printf(j==n ? "%d\n" : "%d ", a[i][j]);
+
 	for (int i=1; i<=m; i++) f1(j,n) {
 		c1[i][j] = (a[i][j] ? 1 + c1[i-1][j-1] : 0);
 		c2[i][j] = (a[i][j] ? 1 + c2[i-1][j+1] : 0);
