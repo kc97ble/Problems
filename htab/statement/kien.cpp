@@ -52,8 +52,8 @@ int h(int u, int v){
 }
 
 main(){
-	freopen("htab.inp", "r", stdin);
-	freopen("htab.out", "w", stdout);
+	//freopen("htab.inp", "r", stdin);
+	//freopen("htab.out", "w", stdout);
 	
 	scanf("%d%d%d", &m, &n, &k);
 	f1(i,m) f1(j,n) scanf("%d", &a[i][j]);
